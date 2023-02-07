@@ -36,16 +36,16 @@ class KelasController extends Controller
 
     public function jurusan_delete($id)
     {
-        $kelas = Jurusan::find($id)->kelas;
-        dd($kelas);
+        // (Jurusan::find($id)->kelas)->delete();
+        Kelas::where('jurusan_id', $id)->delete();
 
         $jurusan = Jurusan::find($id);
         $jurusan->delete();
-        // return redirect('/home')->with('success','Task deleted successfully');
+        return redirect('/jurusan')->with('success','Jurusan berhasil dihapus.');
     }
 
     public function kelas_detail($id){
-        $kelas = Jurusan::find($id)->kelas;
+        $kelas = (Kelas::where('jurusan_id', $id))->orderBy('nama_kelas', 'asc')->get();
 
         return view('kelas-detail', ['kelas' => $kelas]);
         // return view('kelas-detail');
@@ -65,6 +65,7 @@ class KelasController extends Controller
         $n = (DB::table('kelas')->where('nama_kelas', 'LIKE', '%' . $item['nama_kelas'] . '%')->get())->count()+1;
         for ($i=0; $i < $item['count']; $i++) {
             $final_item[] = [
+                    'id' => strtoupper($initial[0].$initial[1]).'-'.strtoupper(Str::random(5)),
                     'nama_kelas' => $item['nama_kelas'].$n++,
                     'jurusan_id' => $jurusan->id,
                     "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
@@ -74,7 +75,40 @@ class KelasController extends Controller
         // dd($final_item);
         Kelas::insert($final_item);
 
+        return redirect()->route('kelas.detail', $jurusan->id)->with('success','Kelas berhasil ditambahkan.');
     }
 
+    public function kelas_edit($id, $nama_kelas)
+    {
+        // $item = array(
+        //     [
+        //         'id'=>$id,
+        //         '$nama_kelas'=>$nama_kelas
+        //     ]
+        // );
+        // dd($item);
 
+        $kelas = Kelas::find($id)->where('nama_kelas', $nama_kelas)->first();
+        return view('kelas-form', ['kelas' => $kelas]);
+    }
+
+    public function kelas_update(Request $request, $id)
+    {
+        $item = $request->validate([
+            'nama_kelas' => ['required'],
+        ]);
+
+        $kelas = Kelas::find($id)->where('nama_kelas', $item['nama_kelas']);
+        dd($kelas);
+        $kelas->update($item);
+    }
+
+    public function kelas_delete(Kelas $kelas){
+        $kelas->delete();
+        return back()->with('success','Kelas berhasil dihapus.');
+    }
+
+    public function lihat_siswa($item){
+        return route('siswa', $item);
+    }
 }

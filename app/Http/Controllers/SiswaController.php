@@ -5,16 +5,41 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Siswa;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ImportSiswa;
 
 class SiswaController extends Controller
 {
-    public function index(){
-        // $result = DB::select('SELECT * FROM siswas');
-        $result = DB::table('siswas')->paginate(50);
+    public function importView()
+    {
+        return view('import.import_siswa');
+    }
+
+    public function import(Request $request){
+        Excel::import(new ImportSiswa, $request->file('file'));
+        return redirect()->back();
+    }
+
+    public function index($item = null){
+        $session = "false";
+        $result = Siswa::with(['kelas', 'kelas.jurusan']);
+        if ($item) {
+            $result->whereHas('kelas', function ($query) use ($item) {
+                $query->where('nama_kelas', $item);
+            });
+
+            $session = "true";
+        }
+        $result = $result->get();
 
         return view('siswa-table', [
-            'siswa' => $result
-        ]);
+            'siswa' => $result,
+            'kelas' => ($result->first())->kelas->nama_kelas,
+        ])->with('seession', $session);
+    }
+
+    public function siswa_create(){
+        return view('form.siswa-form');
     }
 
     public function store(Request $request){

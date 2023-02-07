@@ -1,46 +1,25 @@
 @extends('layout.main-layout')
+@section('css')
+{{-- <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" type="image/x-icon"> --}}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.13.2/datatables.min.css"/>
+
+@endsection
 @section('content')
-{{-- <div class="table-responsive">
-    <table class="table table-striped
-    table-hover
-    table-borderless
-    table-primary
-    align-middle">
-        <thead class="table-light">
-            <tr>
-                <th>NIS</th>
-                <th>Nama Lengkap</th>
-                <th>Jenis Kelamin</th>
-                <th>Kelas</th>
-                <th>Jurusan</th>
-                <th>Score</th>
-            </tr>
-            </thead>
-            <tbody class="table-group-divider">
-                @foreach ($siswa as $item)
-                <tr class="table-primary" >
-                    <td>{{$item->nis}}</td>
-                    <td>{{$item->fullname}}</td>
-                    <td>{{$item->gender}}</td>
-                    <td>{{$item->kelas}}</td>
-                    <td>{{$item->jurusan}}</td>
-                    <td>{{$item->score}}</td>
-                </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
+    <!-- As a heading -->
+    <nav class="navbar bg-light">
+        <div class="container-fluid py-2">
+            <a class="btn btn-danger" href="{{ back() }}" role="button">< Kembali</a>
+            <a class="btn btn-success ml-auto" href="{{ route('siswa.create') }}" role="button">+ Tambahkan Siswa</a>
+        </div>
+    </nav>
 
-            </tfoot>
-        </table>
-        {!! $siswa->appends(['sort' => 'votes'])->links() !!}
-</div> --}}
-<div class="container-fluid">
-    <div class="input-group mb-3">
-        <input type="input" class="form-control" id="inputGroupFile02">
-        <label class="input-group" for="inputGroupFile02" type="submit  ">Seach</label>
-    </div>
+<div class="container mt-5">
+    @if ( session('session') == "true")
+        <h3>Menampilkan Kelas: {{ $kelas }}</h3>
+    @else
 
-    <table class="table table-striped table-bordered table-hover">
+    @endif
+    <table class="table table-striped table-bordered table-hover" id="myTable">
         <thead>
             <tr>
                 <th>NIS</th>
@@ -49,25 +28,37 @@
                 <th>Kelas</th>
                 <th>Jurusan</th>
                 <th>Score</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($siswa as $item)
             <tr>
                 <td>{{ $item->nis }}</td>
-                <td>{{ $item->fullname }}</td>
-                <td>{{ $item->gender }}</td>
-                <td>{{ $item->kelas }}</td>
-                <td>{{ $item->jurusan }}</td>
-                <td>{{ $item->score }}</td>
+                <td>{{ $item->nama_lengkap }}</td>
+                <td>{{ $item->jenis_kelamin }}</td>
+                <td>{{ $item->kelas->nama_kelas }}</td>
+                <td>{{ $item->kelas->jurusan->nama_jurusan }}</td>
+                <td>{{ $item->nilai }}</td>
+                <td class="text-center">
+                    <a name="" id="" class="btn btn-primary" href="{{ route('siswa',  encrypt($item->id)) }}" role="button">Update</a>
+                    <a name="" id="" class="btn btn-outline-secondary" href="#" role="button">Delete</a>
+                </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-    {!! $siswa->appends(['sort' => 'votes'])->links() !!}
+    {{-- {!! $siswa->appends(['sort' => 'votes'])->links() !!} --}}
 </div>
 @endsection
 
 @section('script-extention')
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.13.2/datatables.min.js"></script>
+<script>
+        $(document).ready( function () {
+        $('#myTable').DataTable();
+        scrollX: true
+        });
+</script>
 @endsection

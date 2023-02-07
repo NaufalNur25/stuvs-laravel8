@@ -17,6 +17,7 @@ class Kelas extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'nama_kelas',
         'jurusan_id',
     ];
@@ -35,5 +36,10 @@ class Kelas extends Model
     public function Jurusan()
     {
         return $this->belongsTo(Jurusan::class);
+    }
+
+    public function Siswa()
+    {
+        return $this->hasMany(Siswa::class);
     }
 }

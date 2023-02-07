@@ -14,13 +14,11 @@ class Siswa extends Model
      */
     protected $fillable = [
         'nis',
-        'username',
-        'fullname',
-        'kelas',
-        'jurusan',
-        'gender',
-        'email',
+        'nama_lengkap',
+        'jenis_kelamin',
         'kode_siswa',
+        'kelas_id',
+        'nilai',
     ];
 
     /**
@@ -33,4 +31,14 @@ class Siswa extends Model
     ];
 
     use HasFactory;
+
+    public function Kelas()
+    {
+        return $this->belongsTo(Kelas\Kelas::class);
+    }
+
+    public function Jurusan()
+    {
+        return $this->belongsTo(Kelas\Kelas::class);
+    }
 }

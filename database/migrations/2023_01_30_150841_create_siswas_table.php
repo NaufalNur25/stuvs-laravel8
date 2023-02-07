@@ -17,11 +17,11 @@ class CreateSiswasTable extends Migration
             $table->id();
             $table->string('kode_siswa')->nullable()->index();
             $table->string('nis', 10)->unique();
-            $table->string('nama_lengkap')->nullable();
-            $table->string('kelas')->nullable();
-            $table->string('jurusan')->nullable();
+            $table->string('nama_lengkap');
+            $table->string('kelas_id');
             $table->string('jenis_kelamin')->default('Laki-laki');
             $table->string('nilai')->default(100);
+            $table->foreign('kelas_id')->references('id')->on('kelas');
             $table->timestamps();
         });
     }

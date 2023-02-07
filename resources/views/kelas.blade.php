@@ -68,8 +68,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <a href="{{ route('kelas.detail', ['id' => $item->id]) }}" class="btn btn-outline-primary">Lihat Kelas</a>
-                                    <button type="button" class="btn btn-danger">Delete Jurusan</button>
+                                    <a href="{{ route('kelas.detail', $item->id) }}" class="btn btn-outline-primary">Lihat Kelas</a>
+                                    <button type="button" class="btn btn-danger" onclick='confirmDelete(`{{$item->id}}`)'>Delete Jurusan</button>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
     function confirmDelete(id) {
       let text = "Menghapus jurusan artinya menghapus semua kelas pada jurusan ini.\nOk untuk menghapus jurusan atau Cancel.";
       if (confirm(text) == true) {
-        location.href = "http://127.0.0.1:8000/jurusan/delete/".id;
+        location.href = `http://127.0.0.1:8000/jurusan/delete/${id}`;
       } else {
         text = "You canceled!";
       }
