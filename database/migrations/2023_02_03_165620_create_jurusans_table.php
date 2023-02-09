@@ -21,6 +21,15 @@ class CreateJurusansTable extends Migration
         });
     }
 
+    // public function up()
+    // {
+    //     Schema::create('jurusans', function (Blueprint $table) {
+    //         $table->increments('id');
+    //         $table->string('kode_jurusan')->unique();
+    //         $table->string('nama_jurusan', 115);
+    //         $table->timestamps();
+    //     });
+    // }
     /**
      * Reverse the migrations.
      *

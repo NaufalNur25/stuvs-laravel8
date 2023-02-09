@@ -3,6 +3,7 @@
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AuthenticateController;
+use App\Http\Middleware\HashMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,8 +45,10 @@ Route::post('/kelas', [KelasController::class, 'kelas_store']);
 
 Route::get('/siswa/{item?}', [SiswaController::class, 'index'])->name('siswa');
 Route::get('/create-new/siswa', [SiswaController::class, 'siswa_create'])->name('siswa.create');
-Route::get('/create-new/siswa/store', [SiswaController::class, 'store'])->middleware(HashMiddleware::class)->name('siswa.store');
-Route::get('/siswa/update/{id?}', [SiswaController::class, 'index'])->middleware(HashMiddleware::class)->name('siswa');
+// Route::get('/create-new/siswa/store', [SiswaController::class, 'store'])->middleware(HashMiddleware::class)->name('siswa.store');
+// Route::get('/siswa/update/{id?}', [SiswaController::class, 'index'])->middleware(HashMiddleware::class)->name('siswa');
+Route::get('/create-new/siswa/store', [SiswaController::class, 'store']);
+Route::get('/siswa/update/{id?}', [SiswaController::class, 'index']);
 
 Route::get('/file-import', [SiswaController::class, 'importView'])->name('import-view');
 Route::post('/import',[SiswaController::class, 'import'])->name('import');

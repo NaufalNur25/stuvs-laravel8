@@ -21,21 +21,18 @@ class SiswaController extends Controller
     }
 
     public function index($item = null){
-        $session = "false";
         $result = Siswa::with(['kelas', 'kelas.jurusan']);
         if ($item) {
             $result->whereHas('kelas', function ($query) use ($item) {
                 $query->where('nama_kelas', $item);
             });
-
-            $session = "true";
         }
         $result = $result->get();
 
         return view('siswa-table', [
             'siswa' => $result,
             'kelas' => ($result->first())->kelas->nama_kelas,
-        ])->with('seession', $session);
+        ]);
     }
 
     public function siswa_create(){

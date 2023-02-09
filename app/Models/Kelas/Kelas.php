@@ -4,6 +4,8 @@ namespace App\Models\Kelas;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Siswa;
+use App\Models\Kelas\Jurusan;
 
 class Kelas extends Model
 {

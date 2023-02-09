@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Kelas\Kelas;
 
 class Siswa extends Model
 {
@@ -33,11 +34,6 @@ class Siswa extends Model
     use HasFactory;
 
     public function Kelas()
-    {
-        return $this->belongsTo(Kelas\Kelas::class);
-    }
-
-    public function Jurusan()
     {
         return $this->belongsTo(Kelas\Kelas::class);
     }

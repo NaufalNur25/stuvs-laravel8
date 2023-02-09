@@ -15,14 +15,23 @@ class CreateKelasTable extends Migration
     {
         Schema::create('kelas', function (Blueprint $table) {
             $table->string('id')->index();
-            // $table->string('kode_jurusan', 115)->index();
-            $table->string('jurusan_id', 115);
+            $table->string('jurusan_id')->references('id')->on('jurusans');
             $table->string('nama_kelas', 115);
             $table->timestamps();
-            $table->foreign('jurusan_id')->references('id')->on('jurusans');
         });
     }
 
+    // public function up()
+    // {
+    //     Schema::create('kelas', function (Blueprint $table) {
+    //         $table->increments('id');
+    //         $table->unsignedInteger('jurusan_id');
+    //         $table->string('kode_kelas', 115)->unique();
+    //         $table->string('nama_kelas', 115);
+    //         $table->timestamps();
+    //         $table->foreign('jurusan_id')->references('id')->on('jurusans');
+    //     });
+    // }
     /**
      * Reverse the migrations.
      *

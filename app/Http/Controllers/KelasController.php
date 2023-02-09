@@ -13,8 +13,7 @@ class KelasController extends Controller
     public function jurusan_index()
     {
         return view('kelas', [
-            'jurusan' => Jurusan::all(),
-            'kelas' => Kelas::all(),
+            'jurusan' => Jurusan::with('kelas', 'kelas.siswa')->get(),
         ]);
     }
 
@@ -106,9 +105,5 @@ class KelasController extends Controller
     public function kelas_delete(Kelas $kelas){
         $kelas->delete();
         return back()->with('success','Kelas berhasil dihapus.');
-    }
-
-    public function lihat_siswa($item){
-        return route('siswa', $item);
     }
 }
