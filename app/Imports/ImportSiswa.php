@@ -24,8 +24,10 @@ class ImportSiswa implements ToCollection
             if($key == 0){
                 continue;
             }else{
-                $jurusan_query = (Jurusan::where('initial', $row[3]))->count();
-                $kelas_querry = (Kelas::where('nama_kelas', $row[2]))->count();
+                $jurusan_query = (Jurusan::where('initial', str_replace(' ', '', $row[3])))->count();
+                $kelas_querry = (Kelas::where('nama_kelas', str_replace(' ', '', $row[2])))->count();
+
+                $initial = explode('-', $row[2]);
                 if (!$kelas_querry && !$jurusan_query) {
                     Jurusan::create([
                         'id' => $row[3].'-'.strtoupper(Str::random(5)),
@@ -34,11 +36,11 @@ class ImportSiswa implements ToCollection
                     ]);
 
                     $jurusan_item = Jurusan::where('initial', $row[3])->first();
-                    $initial = explode('-', $row[2]);
+
                     Kelas::create([
-                        'id' => strtoupper($initial[0] . $initial[1]) . '-' . strtoupper(Str::random(5)),
+                        'id' => str_replace(' ', '', strtoupper($initial[0] . $initial[1])) . '-' . strtoupper(Str::random(5)),
                         'jurusan_id' => $jurusan_item->id,
-                        'nama_kelas' => $row[2],
+                        'nama_kelas' => str_replace(' ', '', strtoupper($row[2])),
                     ]);
 
                 }
@@ -47,9 +49,9 @@ class ImportSiswa implements ToCollection
                     $jurusan_item = Jurusan::where('initial', $row[3])->first();
                     $initial = explode('-', $row[2]);
                     Kelas::create([
-                        'id' => strtoupper($initial[0] . $initial[1]) . '-' . strtoupper(Str::random(5)),
+                        'id' => str_replace(' ', '', strtoupper($initial[0] . $initial[1])) . '-' . strtoupper(Str::random(5)),
                         'jurusan_id' => $jurusan_item->id,
-                        'nama_kelas' => $row[2],
+                        'nama_kelas' => str_replace(' ', '', strtoupper($row[2])),
                     ]);
                 }
 
@@ -59,7 +61,7 @@ class ImportSiswa implements ToCollection
                     Siswa::create([
                         'nis' => $row[0],
                         'nama_lengkap' => $row[1],
-                        'kelas_id' => (Kelas::where('nama_kelas', $row[2])->first())->id,
+                        'kelas_id' => (Kelas::where('nama_kelas', str_replace(' ', '', strtoupper($row[2])))->first())->id,
                     ]);
                 }
 

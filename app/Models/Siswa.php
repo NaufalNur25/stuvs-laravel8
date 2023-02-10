@@ -35,6 +35,6 @@ class Siswa extends Model
 
     public function Kelas()
     {
-        return $this->belongsTo(Kelas\Kelas::class);
+        return $this->belongsTo(Kelas::class);
     }
 }

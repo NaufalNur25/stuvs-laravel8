@@ -22,6 +22,17 @@ class SiswaController extends Controller
 
     public function index($item = null){
         $result = Siswa::with(['kelas', 'kelas.jurusan']);
+        // if ($item) {
+        //     $result->whereHas('kelas', function ($query) use ($item) {
+        //         $query->where('nama_kelas', $item);
+        //     });
+        // }
+        // $result = $result->get();
+
+        // return view('siswa-table', [
+        //     'siswa' => $result,
+        //     'kelas' => !(($result->first())->kelas->nama_kelas)->count() ? $result : ($result->first())->kelas->nama_kelas,
+        // ]);
         if ($item) {
             $result->whereHas('kelas', function ($query) use ($item) {
                 $query->where('nama_kelas', $item);
@@ -29,9 +40,14 @@ class SiswaController extends Controller
         }
         $result = $result->get();
 
+        $kelas = '';
+        if ($result->isNotEmpty()) {
+            $kelas = ($result->first())->kelas->nama_kelas;
+        }
+
         return view('siswa-table', [
             'siswa' => $result,
-            'kelas' => ($result->first())->kelas->nama_kelas,
+            'kelas' => $kelas,
         ]);
     }
 

@@ -88,18 +88,23 @@ class KelasController extends Controller
         // dd($item);
 
         $kelas = Kelas::find($id)->where('nama_kelas', $nama_kelas)->first();
-        return view('kelas-form', ['kelas' => $kelas]);
+        return view('form/kelas-form', ['kelas' => $kelas]);
     }
 
     public function kelas_update(Request $request, $id)
     {
+        // dd($id);
         $item = $request->validate([
             'nama_kelas' => ['required'],
         ]);
 
-        $kelas = Kelas::find($id)->where('nama_kelas', $item['nama_kelas']);
+        // dd($request['nama_kelas']);
+
+        $kelas = Kelas::find($id)->where('nama_kelas', $item['nama_kelas'])->first();
         dd($kelas);
-        $kelas->update($item);
+        $kelas->update([
+            'nama_kelas' => $item['nama_kelas']
+        ]);
     }
 
     public function kelas_delete(Kelas $kelas){

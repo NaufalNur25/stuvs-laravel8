@@ -10,7 +10,9 @@
 </nav>
 
 <div class="container">
-    <form action="" method="post">
+    <form action="{{ route('kelas.update', $kelas->id) }}" method="post">
+        @csrf
+        @method('PUT')
         <input type="hidden" class="form-control" id="formGroupExampleInput" aria-label="Disabled input example" placeholder="{{ $kelas->id }}" disabled>
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">Jurusan</label>
@@ -19,7 +21,7 @@
 
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">Nama Kelas</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="{{ $kelas->nama_kelas }}" value="{{ $kelas->nama_kelas }}">
+            <input name="nama_kelas" type="text" class="form-control" id="formGroupExampleInput" placeholder="{{ $kelas->nama_kelas }}" value="{{ $kelas->nama_kelas }}">
         </div>
 
         <div class="col-12">
