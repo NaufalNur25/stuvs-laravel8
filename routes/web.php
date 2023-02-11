@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\AuthenticateController;
-use App\Http\Middleware\HashMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,9 +54,7 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/import',[SiswaController::class, 'import'])->name('import');
 
 
-Route::get('/', function () {
-    return view('dashboard');
-});
+Route::get('/', [Controller::class, 'index']);
 
 Route::get('/login', [AuthenticateController::class, 'login_index']);
 Route::post('/login', [AuthenticateController::class, 'authenticate']);
