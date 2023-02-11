@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use App\Models\Kelas\Kelas;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -17,13 +18,15 @@ class Controller extends BaseController
     public function index()
     {
         $siswa = Siswa::all();
-        $jumlahSiswa = Siswa::groupBy('jenis_kelamin')->selectRaw('jenis_kelamin, count(*) as jumlah')->get();
         $akun = User::all();
+        $kelas = Kelas::all();
+        $jumlahSiswa = Siswa::groupBy('jenis_kelamin')->selectRaw('jenis_kelamin, count(*) as jumlah')->get();
 
         // dd($jumlahSiswa->where('jenis_kelamin', 'Perempuan')->first());
         return view('dashboard', [
             "siswa_count" => $siswa->count(),
             "akun_count" => $akun->count(),
+            "kelas_count" => $kelas->count(),
             "jumlah_siswa_laki_laki" => $jumlahSiswa->where('jenis_kelamin', 'Laki-laki')->first(),
             "jumlah_siswa_perempuan" => $jumlahSiswa->where('jenis_kelamin', 'Perempuan')->first(),
         ]);

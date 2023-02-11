@@ -268,10 +268,16 @@
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="card">
-
+                                        <div
+                                            class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                            <h6 class="mb-0 fw-bold ">Laporan Bulanan</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="ac-line-transparent" id="apex-emplyoeeAnalytics"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <div class="card">
                                         <div
                                             class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
@@ -288,7 +294,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {{-- <div class="col-md-6 col-sm-6">
+                                                <div class="col-md-6 col-sm-6">
                                                     <div class="card">
                                                         <div class="card-body ">
                                                             <i class="icofont-checked fs-3"></i>
@@ -305,8 +311,8 @@
                                                             <span class="text-muted">06</span>
                                                         </div>
                                                     </div>
-                                                </div> --}}
-                                                {{-- <div class="col-md-6 col-sm-6">
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
                                                     <div class="card">
                                                         <div class="card-body ">
                                                             <i class="icofont-beach-bed fs-3"></i>
@@ -314,12 +320,12 @@
                                                             <span class="text-muted">14</span>
                                                         </div>
                                                     </div>
-                                                </div> --}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12">
+                                </div> --}}
+                                <div class="col-md-6">
                                     <div class="card">
                                         <div
                                             class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
@@ -327,7 +333,19 @@
                                             <h4 class="mb-0 fw-bold ">{{ $siswa_count }}</h4>
                                         </div>
                                         <div class="card-body">
-                                            <div class="mt-3" id="apex-MainCategories"></div>
+                                            <div class="mt-3" id="apex-JenisKelamin"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div
+                                            class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                            <h6 class="mb-0 fw-bold ">Total Petugas</h6>
+                                            <h4 class="mb-0 fw-bold ">0</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mt-3" id="apex-Petugas"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -384,8 +402,8 @@
                                                     class="avatar lg light-success-bg rounded-circle text-center d-flex align-items-center justify-content-center"><i
                                                         class="icofont-holding-hands fs-5"></i></span>
                                                 <div class="d-flex flex-column ps-3 flex-fill">
-                                                    <h6 class="fw-bold mb-0 fs-4">101</h6>
-                                                    <span class="text-muted">Hired</span>
+                                                    <h6 class="fw-bold mb-0 fs-4">{{ $kelas_count }}</h6>
+                                                    <span class="text-muted">Banyak Kelas</span>
                                                 </div>
                                                 <i class="icofont-chart-line fs-3 text-muted"></i>
                                             </div>
@@ -498,84 +516,85 @@
                             </div>
                         </div>
                         <!-- <div class="col-md-12">
-                                                <div class="card light-danger-bg">
-                                                    <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                                        <h6 class="mb-0 fw-bold ">Top Perfrormers</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="row g-3 align-items-center">
-                                                            <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-2">
-                                                                <p>You have 140 <span class="fw-bold">influencers </span> in your company.</p>
-                                                                <div class="d-flex  justify-content-between text-center">
-                                                                    <div class="">
-                                                                        <h3 class="fw-bold">350</h3>
-                                                                        <span class="small">New Task</span>
-                                                                    </div>
-                                                                    <div class="">
-                                                                        <h3 class="fw-bold">130</h3>
-                                                                        <span class="small">Task Completed</span>
+                                                    <div class="card light-danger-bg">
+                                                        <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                                            <h6 class="mb-0 fw-bold ">Top Perfrormers</h6>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row g-3 align-items-center">
+                                                                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-2">
+                                                                    <p>You have 140 <span class="fw-bold">influencers </span> in your company.</p>
+                                                                    <div class="d-flex  justify-content-between text-center">
+                                                                        <div class="">
+                                                                            <h3 class="fw-bold">350</h3>
+                                                                            <span class="small">New Task</span>
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h3 class="fw-bold">130</h3>
+                                                                            <span class="small">Task Completed</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-10">
-                                                                <div class="row g-3 row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-6 row-deck top-perfomer">
-                                                                    <div class="col">
-                                                                        <div class="card shadow">
-                                                                            <div class="card-body text-center d-flex flex-column justify-content-center">
-                                                                                <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar2.jpg" alt="profile">
-                                                                                <h6 class="fw-bold my-2 small-14">Luke Short</h6>
-                                                                                <span class="text-muted mb-2">@Short</span>
-                                                                                <h4 class="fw-bold text-primary fs-3">80%</h4>
+                                                                <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-10">
+                                                                    <div class="row g-3 row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-6 row-deck top-perfomer">
+                                                                        <div class="col">
+                                                                            <div class="card shadow">
+                                                                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                                                                    <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar2.jpg" alt="profile">
+                                                                                    <h6 class="fw-bold my-2 small-14">Luke Short</h6>
+                                                                                    <span class="text-muted mb-2">@Short</span>
+                                                                                    <h4 class="fw-bold text-primary fs-3">80%</h4>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <div class="card shadow">
-                                                                            <div class="card-body text-center d-flex flex-column justify-content-center">
-                                                                                <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar5.jpg" alt="profile">
-                                                                                <h6 class="fw-bold my-2 small-14">John Hard</h6>
-                                                                                <span class="text-muted mb-2">@rdacre</span>
-                                                                                <h4 class="fw-bold text-primary fs-3">70%</h4>
+                                                                        <div class="col">
+                                                                            <div class="card shadow">
+                                                                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                                                                    <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar5.jpg" alt="profile">
+                                                                                    <h6 class="fw-bold my-2 small-14">John Hard</h6>
+                                                                                    <span class="text-muted mb-2">@rdacre</span>
+                                                                                    <h4 class="fw-bold text-primary fs-3">70%</h4>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <div class="card shadow">
-                                                                            <div class="card-body text-center d-flex flex-column justify-content-center">
-                                                                                <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar8.jpg" alt="profile">
-                                                                                <h6 class="fw-bold my-2 small-14">Paul Rees</h6>
-                                                                                <span class="text-muted mb-2">@Rees</span>
-                                                                                <h4 class="fw-bold text-primary fs-3">77%</h4>
+                                                                        <div class="col">
+                                                                            <div class="card shadow">
+                                                                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                                                                    <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar8.jpg" alt="profile">
+                                                                                    <h6 class="fw-bold my-2 small-14">Paul Rees</h6>
+                                                                                    <span class="text-muted mb-2">@Rees</span>
+                                                                                    <h4 class="fw-bold text-primary fs-3">77%</h4>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <div class="card shadow">
-                                                                            <div class="card-body text-center d-flex flex-column justify-content-center">
-                                                                                <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar9.jpg" alt="profile">
-                                                                                <h6 class="fw-bold my-2 small-14">Rachel Parr</h6>
-                                                                                <span class="text-muted mb-2">@Parr</span>
-                                                                                <h4 class="fw-bold text-primary fs-3">85%</h4>
+                                                                        <div class="col">
+                                                                            <div class="card shadow">
+                                                                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                                                                    <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar9.jpg" alt="profile">
+                                                                                    <h6 class="fw-bold my-2 small-14">Rachel Parr</h6>
+                                                                                    <span class="text-muted mb-2">@Parr</span>
+                                                                                    <h4 class="fw-bold text-primary fs-3">85%</h4>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <div class="card shadow">
-                                                                            <div class="card-body text-center d-flex flex-column justify-content-center">
-                                                                                <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar12.jpg" alt="profile">
-                                                                                <h6 class="fw-bold my-2 small-14">Eric Reid</h6>
-                                                                                <span class="text-muted mb-2">@Eric</span>
-                                                                                <h4 class="fw-bold text-primary fs-3">95%</h4>
+                                                                        <div class="col">
+                                                                            <div class="card shadow">
+                                                                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                                                                    <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar12.jpg" alt="profile">
+                                                                                    <h6 class="fw-bold my-2 small-14">Eric Reid</h6>
+                                                                                    <span class="text-muted mb-2">@Eric</span>
+                                                                                    <h4 class="fw-bold text-primary fs-3">95%</h4>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <div class="card shadow">
-                                                                            <div class="card-body text-center d-flex flex-column justify-content-center">
-                                                                                <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar3.jpg" alt="profile">
-                                                                                <h6 class="fw-bold my-2 small-14">Jan Ince</h6>
-                                                                                <span class="text-muted mb-2">@Ince</span>
-                                                                                <h4 class="fw-bold text-primary fs-3">97%</h4>
+                                                                        <div class="col">
+                                                                            <div class="card shadow">
+                                                                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                                                                    <img class="avatar lg rounded-circle img-thumbnail mx-auto" src="assets/images/lg/avatar3.jpg" alt="profile">
+                                                                                    <h6 class="fw-bold my-2 small-14">Jan Ince</h6>
+                                                                                    <span class="text-muted mb-2">@Ince</span>
+                                                                                    <h4 class="fw-bold text-primary fs-3">97%</h4>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -583,8 +602,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div> -->
+                                                </div> -->
                     </div><!-- Row End -->
                 </div>
             </div>
@@ -614,15 +632,15 @@
             var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             })
-            var banyakLakiLaki = <?php echo json_encode(@$jumlah_siswa_laki_laki) ?>;
-            var banyakPerempuan = <?php echo json_encode(@$jumlah_siswa_perempuan) ?>;
+            var banyakLakiLaki = <?php echo json_encode(@$jumlah_siswa_laki_laki); ?>;
+            var banyakPerempuan = <?php echo json_encode(@$jumlah_siswa_perempuan); ?>;
 
             // // console.log(banyakLakiLaki['jumlah']);
             // console.log(banyakPerempuan['jumlah']);
 
 
 
-            // Employees Data
+            // Jenis Kelamin Data
             $(document).ready(function() {
                 var options = {
                     align: 'center',
@@ -641,7 +659,9 @@
                         show: true,
                     },
                     colors: ['var(--chart-color4)', 'var(--chart-color3)'],
-                    series: [banyakLakiLaki ? banyakLakiLaki['jumlah'] : 0, banyakPerempuan ? banyakPerempuan['jumlah'] : 0],
+                    series: [banyakLakiLaki ? banyakLakiLaki['jumlah'] : 0, banyakPerempuan ?
+                        banyakPerempuan['jumlah'] : 0
+                    ],
                     responsive: [{
                         breakpoint: 480,
                         options: {
@@ -654,7 +674,43 @@
                         }
                     }]
                 }
-                var chart = new ApexCharts(document.querySelector("#apex-MainCategories"), options);
+                var chart = new ApexCharts(document.querySelector("#apex-JenisKelamin"), options);
+                chart.render();
+            });
+
+            // Petugas Data
+            $(document).ready(function() {
+                var options = {
+                    align: 'center',
+                    chart: {
+                        height: 250,
+                        type: 'donut',
+                        align: 'center',
+                    },
+                    labels: ['Online', 'Offline'],
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    legend: {
+                        position: 'bottom',
+                        horizontalAlign: 'center',
+                        show: true,
+                    },
+                    colors: ['var(--chart-color5)', 'var(--chart-color2)'],
+                    series: [0],
+                    responsive: [{
+                        breakpoint: 480,
+                        options: {
+                            chart: {
+                                width: 200
+                            },
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }]
+                }
+                var chart = new ApexCharts(document.querySelector("#apex-Petugas"), options);
                 chart.render();
             });
 
@@ -662,7 +718,7 @@
             $(document).ready(function() {
                 var options = {
                     series: [{
-                        name: 'Available',
+                        name: 'Laporan',
                         data: [4, 19, 7, 35, 14, 27, 9, 12],
                     }],
                     chart: {
