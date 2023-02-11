@@ -93,3 +93,4 @@ Route::group(['prefix' => 'siswa'], function () {
     Route::get('/create-new/file-import', [SiswaController::class, 'importView'])->name('import-view');
     Route::post('/file-import/import',[SiswaController::class, 'import'])->name('import.siswa');
 });
+
