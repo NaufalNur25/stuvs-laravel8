@@ -80,11 +80,16 @@ Route::group(['prefix' => 'kelas'], function () {
 });
 
 Route::group(['prefix' => 'siswa'], function () {
-    Route::get('/{item?}', [SiswaController::class, 'index'])->name('siswa');
-    Route::get('create-new', [SiswaController::class, 'siswa_create'])->name('siswa.create');
-    Route::post('create-new/store', [SiswaController::class, 'store']);
-    Route::post('update/{id?}', [SiswaController::class, 'index']);
+    Route::get('/table/show/{item?}', [SiswaController::class, 'index'])->name('siswa');
 
-    Route::get('create-new/file-import', [SiswaController::class, 'importView'])->name('import-view');
-    Route::post('file-import/import',[SiswaController::class, 'import'])->name('import.siswa');
+    Route::get('/create-new', [SiswaController::class, 'create'])->name('siswa.create');
+    Route::post('/getjurusanid', [SiswaController::class, 'get_jurusan'])->name('ajax.getJurusanID');
+    Route::post('/create-new/store', [SiswaController::class, 'store'])->name('siswa.store');
+
+
+    Route::get('/edit/{id}', [SiswaController::class, 'edit'])->name('siswa.edit');
+    Route::put('/update/{id}', [SiswaController::class, 'update'])->name('siswa.update');
+
+    Route::get('/create-new/file-import', [SiswaController::class, 'importView'])->name('import-view');
+    Route::post('/file-import/import',[SiswaController::class, 'import'])->name('import.siswa');
 });

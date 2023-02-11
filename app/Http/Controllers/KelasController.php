@@ -56,7 +56,6 @@ class KelasController extends Controller
             'nama_kelas' => ['required'],
             'count' => ['required']
         ]);
-        // dd($item);
 
         $initial = explode('-', $item['nama_kelas']);
         $jurusan = Jurusan::where('initial', $initial[1])->first();
@@ -101,7 +100,6 @@ class KelasController extends Controller
         // dd($request['nama_kelas']);
 
         $kelas = Kelas::find($id)->where('nama_kelas', $item['nama_kelas'])->first();
-        dd($kelas);
         $kelas->update([
             'nama_kelas' => $item['nama_kelas']
         ]);

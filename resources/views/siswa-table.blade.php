@@ -8,16 +8,17 @@
     <!-- As a heading -->
     <nav class="navbar bg-light">
         <div class="container-fluid py-2">
-            <a class="btn btn-danger" href="{{ back() }}" role="button">< Kembali</a>
+            <a class="btn btn-danger" href="" role="button">< Kembali</a>
             <a class="btn btn-success ml-auto" href="{{ route('siswa.create') }}" role="button">+ Tambahkan Siswa</a>
         </div>
     </nav>
 
 <div class="container mt-5">
-    @if ( session('session') == "true")
-        <h3>Menampilkan Kelas: {{ $kelas }}</h3>
-    @else
-
+    @if (session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
     <table class="table table-striped table-bordered table-hover" id="myTable">
         <thead>
@@ -41,8 +42,8 @@
                 <td>{{ $item->kelas->jurusan->nama_jurusan }}</td>
                 <td>{{ $item->nilai }}</td>
                 <td class="text-center">
-                    <a name="" id="" class="btn btn-primary" href="{{ route('siswa',  encrypt($item->id)) }}" role="button">Update</a>
-                    <a name="" id="" class="btn btn-outline-secondary" href="#" role="button">Delete</a>
+                    <a class="btn btn-warning px-4" href="{{ route('siswa.edit', encrypt($item->id)) }}" role="button"><i class="fa-regular fa-pen-to-square"></i></a>
+                    <a id="" class="btn btn-outline-secondary px-4" role="button"><i class="fa-regular fa-trash-can"></i></a>
                 </td>
             </tr>
             @endforeach
