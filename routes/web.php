@@ -54,14 +54,14 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/import',[SiswaController::class, 'import'])->name('import');
 
 
-Route::get('/', [Controller::class, 'index']);
+Route::get('/', [Controller::class, 'index'])->name('index');
 
-Route::get('/login', [AuthenticateController::class, 'login_index']);
-Route::post('/login', [AuthenticateController::class, 'authenticate']);
+Route::get('/login', [AuthenticateController::class, 'login_index'])->name('signin.index');
+Route::post('/login', [AuthenticateController::class, 'authenticate'])->name('signin.auth');
 Route::post('/logout', [AuthenticateController::class, 'logout']);
 
-Route::get('/register', [AuthenticateController::class, 'register_index']);
-Route::post('/register', [AuthenticateController::class, 'register']);
+Route::get('/register', [AuthenticateController::class, 'register_index'])->name('signup.index');
+Route::post('/register', [AuthenticateController::class, 'register'])->name('signup.auth');
 
 Route::group(['prefix' => 'jurusan'], function () {
     Route::get('/', [KelasController::class, 'jurusan_index'])->name('jurusan');

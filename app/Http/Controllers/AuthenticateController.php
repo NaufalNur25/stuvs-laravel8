@@ -13,12 +13,12 @@ class AuthenticateController extends Controller
 {
     public function login_index()
     {
-        return view('login');
+        return view('auth.auth-signin');
     }
 
     public function register_index()
     {
-        return view('register');
+        return view('auth.auth-signup');
     }
 
     public function authenticate(Request $request)
