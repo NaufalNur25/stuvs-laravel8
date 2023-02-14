@@ -22,7 +22,7 @@
         <!-- sidebar -->
         <div class="sidebar px-4 py-4 py-md-5 me-0">
             <div class="d-flex flex-column h-100">
-                <a href="index.html" class="mb-0 brand-icon">
+                <a href="/" class="mb-0 brand-icon">
                     <span class="logo-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                             width="500" zoomAndPan="magnify" viewBox="0 0 375 374.999991" height="500"
@@ -53,7 +53,7 @@
                                 fill-opacity="1" fill-rule="nonzero" />
                         </svg>
                     </span>
-                    <span class="logo-text">STUVS</span>
+                    <span class="logo-text" >STUVS</span>
                 </a>
                 <!-- Menu: main ul -->
 
