@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/tes', function () {
+    return view('tes');
+});
 // Route::get('/', function () {
 //     return view('dashboard');
 // });
@@ -88,7 +88,13 @@ Route::group(['prefix' => 'siswa'], function () {
     Route::get('/edit/{id}', [SiswaController::class, 'edit'])->name('siswa.edit');
     Route::put('/update/{id}', [SiswaController::class, 'update'])->name('siswa.update');
 
+    Route::get('/delete/{siswa:id}', [SiswaController::class, 'delete'])->name('siswa.delete');
+
     Route::get('/create-new/file-import', [SiswaController::class, 'importView'])->name('import-view');
     Route::post('/file-import/import',[SiswaController::class, 'import'])->name('import.siswa');
+});
+
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/table/show', [SiswaController::class, 'user_show'])->name('user');
 });
 

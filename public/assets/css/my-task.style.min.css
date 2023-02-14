@@ -24034,3 +24034,7 @@ body.rtl_mode table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first
     background-color: transparent;
     border-bottom: none
 }
+
+.bg-color-auth{
+    background-color: #F2CD5C;
+}

@@ -1,4 +1,4 @@
-@extends('layout.main-layout')
+@extends('layout.master-layout')
 @section('content')
 <nav class="navbar bg-light mb-5">
     <!-- As a heading -->

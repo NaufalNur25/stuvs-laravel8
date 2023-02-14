@@ -89,7 +89,6 @@ class AuthenticateController extends Controller
 
         $validatedData['password'] = Hash::make($validatedData['password']);
         $validatedData += array('kode_siswa' => $kdSiswa);
-        // dd($validatedData);
         User::create($validatedData);
 
         Siswa::where('nis', $siswa[0]->nis)->first()

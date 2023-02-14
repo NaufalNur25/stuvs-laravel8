@@ -37,4 +37,9 @@ class Siswa extends Model
     {
         return $this->belongsTo(Kelas::class);
     }
+
+    public function User()
+    {
+        return $this->hasOne(User::class, 'kode_siswa', 'kode_siswa');
+    }
 }

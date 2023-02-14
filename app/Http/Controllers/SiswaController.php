@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kelas\Jurusan;
 use App\Models\Kelas\Kelas;
 use App\Models\Siswa;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -31,6 +32,14 @@ class SiswaController extends Controller
         return view('siswa-table', [
             'siswa' => $result,
             'kelas' => $kelas,
+        ]);
+    }
+
+    public function user_show(){
+        $result = User::with(['siswa'])->get();
+        // dd($result);
+        return view('user-table', [
+            'user' => $result,
         ]);
     }
 
@@ -109,6 +118,11 @@ class SiswaController extends Controller
         return redirect()->route('siswa')->with('success', 'Berhasil mengubah data siswa dengan NIS: '. $siswa->nis);
     }
 
+    public function delete($id){
+        Siswa::find($id)->delete();
+        return redirect()->route('siswa')->with('success', 'Berhasil Menghapus data siswa.');
+    }
+
     public function importView()
     {
         return view('import.import_siswa');
@@ -116,6 +130,6 @@ class SiswaController extends Controller
 
     public function import(Request $request){
         Excel::import(new ImportSiswa, $request->file('file'));
-        return redirect()->back();
+        return redirect()->route('siswa')->with('success', 'Berhasil import semua data siswa.');
     }
 }

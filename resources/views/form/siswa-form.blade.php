@@ -1,25 +1,32 @@
-@extends('layout.main-layout')
+@extends('layout.master-layout')
 
 @section('content')
-    <div class="container mt-5">
-        <form method="post" class="row g-3" id="haschange" action="{{ @$siswa ? route('siswa.update', encrypt($siswa->id)) : route('siswa.store') }}">
+<div class="body d-flex py-3">
+    <div class="container-xxl">
+        <form method="post" class="row g-3" id="haschange"
+            action="{{ @$siswa ? route('siswa.update', encrypt($siswa->id)) : route('siswa.store') }}">
             @csrf
             @if (@$siswa)
                 @method('PUT')
             @endif
             <div class="col-md-6">
                 <label for="nama_lengkap" class="form-label">Nama Lengkap Siswa</label>
-                <input type="text" name="nama_lengkap" class="form-control @error('nama_lengkap') is-invalid @enderror" id="nama_lengkap"
-                value="{{ @$siswa ? $siswa->nama_lengkap:'' }}" required>
+                <input type="text" name="nama_lengkap" class="form-control @error('nama_lengkap') is-invalid @enderror"
+                    id="nama_lengkap" value="{{ @$siswa ? $siswa->nama_lengkap : '' }}" required>
             </div>
             <div class="col-md-3">
                 <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                 <div class="input-group">
                     <label class="input-group-text" for="jenis_kelamin">Pilih</label>
-                    <select class="form-select @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin" name="jenis_kelamin" required>
+                    <select class="form-select @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin"
+                        name="jenis_kelamin" required>
                         <option selected disabled>...</option>
-                        <option value="Laki-laki" {{ old('jenis_kelamin', @$siswa->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                        <option value="Perempuan" {{ old('jenis_kelamin', @$siswa->jenis_kelamin) == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        <option value="Laki-laki"
+                            {{ old('jenis_kelamin', @$siswa->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>Laki-laki
+                        </option>
+                        <option value="Perempuan"
+                            {{ old('jenis_kelamin', @$siswa->jenis_kelamin) == 'Perempuan' ? 'selected' : '' }}>Perempuan
+                        </option>
                     </select>
                 </div>
             </div>
@@ -28,20 +35,22 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-graduation-cap"></i></span>
                     <input type="text" class="form-control" aria-label="Text input with checkbox" name="nis"
-                        id="nis" value="{{ @$siswa->nis }}" {{@$siswa ? 'disabled' : ''}}>
+                        id="nis" value="{{ @$siswa->nis }}" {{ @$siswa ? 'disabled' : '' }}>
                     <div class="input-group-text">
                         <input class="form-check-input mt-0" name="auto_generate" id="auto_generate" type="checkbox"
                             value="true" aria-label="Checkbox for following text input" data-toggle="tooltip"
-                            title="Auto-Generate" {{@$siswa ? 'disabled' : ''}}>
+                            title="Auto-Generate" {{ @$siswa ? 'disabled' : '' }}>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <label for="jurusan" class="form-label">Jurusan</label>
-                <select class="form-select" id="jurusan" required {{@$siswa ? 'disabled' : ''}} onload="kelas()">
+                <select class="form-select" id="jurusan" required {{ @$siswa ? 'disabled' : '' }} onload="kelas()">
                     <option selected disabled>...</option>
                     @foreach ($jurusan as $item)
-                        <option value="{{ $item->id }}" {{ @$siswa->kelas->jurusan->id == $item->id ? 'selected' : '' }}>{{ $item->nama_jurusan }}</option>
+                        <option value="{{ $item->id }}"
+                            {{ @$siswa->kelas->jurusan->id == $item->id ? 'selected' : '' }}>{{ $item->nama_jurusan }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -53,11 +62,11 @@
             </div>
 
 
-                @if (@$siswa)
+            @if (@$siswa)
                 <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Ubah Siswa</button>
+                    <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
                 </div>
-                @else
+            @else
                 <div class="col-12">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="validating" required>
@@ -67,39 +76,42 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-primary" type="submit" id="submitBtn" disabled>Tambahkan Siswa</button>
-                    <button type="button" class="btn btn-outline-success" id="importBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled>Import Siswa</button>
+                    <button class="btn btn-success" type="submit" id="submitBtn" disabled>Tambahkan Siswa</button>
+                    <button type="button" class="btn btn-outline-warning" id="importBtn" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal" disabled>Import Siswa</button>
                 </div>
-                @endif
+            @endif
         </form>
     </div>
+</div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Import Siswa - Excel</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h2><strong>PERINGATAN!</strong></h2>
-                    <p>Semakin banyak data yang dimuat artinya semakin lama proses import,
-                        lama waktu import ini tergantung dari seberapa komples data yang dimuat.<br><br>
-                        <i>Untuk menghindari respon yang terlalu lama pada server. </i><u>Disarankan</u> untuk memisahkan data menjadi perkelas.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="{{ route('import-view') }}" class="btn btn-success px-5">Import</a>
-                </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Import Siswa - Excel</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2><strong>PERINGATAN!</strong></h2>
+                <p>Semakin banyak data yang dimuat artinya semakin lama proses import,
+                    lama waktu import ini tergantung dari seberapa komples data yang dimuat.<br><br>
+                    <i>Untuk menghindari respon yang terlalu lama pada server. </i><u>Disarankan</u> untuk memisahkan
+                    data menjadi perkelas.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{{ route('import-view') }}" class="btn btn-success px-5">Import</a>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
-@section('script-extention')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+@section('script')
     <script type="text/javascript">
         $(document).ready(function() {
             $("#auto_generate").change(function() {
@@ -158,12 +170,12 @@
                             $('#kelas').html(msg);
 
                             var id = <?php echo json_encode(@$siswa['kelas_id']); ?>;
-                            $('option[value="' + id + '"]').prop("selected", true);
+                            $(`option[value="${id}"]`).prop("selected", true);
                             console.log(id);
                         },
                         error: function(data) {
                             console.log('error: ', data)
-                        },
+                        }
                     });
                 });
 

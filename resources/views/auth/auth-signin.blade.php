@@ -1,10 +1,8 @@
-@extends('layout.main-layout')
+@extends('layout.auth-layout')
 
 @section('content')
-<div id="mytask-layout" class="theme-indigo">
-
     <!-- main body area -->
-    <div class="main p-2 py-3 p-xl-5 ">
+    <div class="main p-2 py-3 p-xl-5 bg-color-custome">
 
         <!-- Body: Body -->
         <div class="body d-flex p-0 p-xl-5">
@@ -15,7 +13,7 @@
                         <div style="max-width: 25rem;">
                             <!-- Image block -->
                             <div class="">
-                                <img src="{{asset('assets/images/StuvsLogo.png')}}" alt="login-img" style="width: 25rem">
+                                <img src="{{asset('assets/images/StuvsLogoWithText.png')}}" alt="login-img" style="width: 25rem">
                             </div>
                         </div>
                     </div>
@@ -83,10 +81,9 @@
             </div>
         </div>
     </div>
-</div>
 @endsection
 
-@section('script-extention')
+@section('script')
     <!-- Jquery Core Js -->
     <script src="{{asset('assets/bundles/libscripts.bundle.js')}}"></script>
 @endsection

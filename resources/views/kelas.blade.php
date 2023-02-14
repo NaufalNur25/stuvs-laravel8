@@ -1,8 +1,8 @@
-@extends('layout.main-layout')
+@extends('layout.master-layout')
 @section('content')
 
-    {{-- {{dd($jurusan)}} --}}
-    <div class="container-fluid" style="width: 95%">
+<div class="body d-flex py-3">
+    <div class="container-xxl">
         <div class="row row-cols-2 g-3">
             <div class="col col-4">
                 <div class="card">
@@ -17,17 +17,14 @@
                                             {{-- <span class="badge bg-primary rounded-pill">1</span> --}}
                                             <!-- Button trigger modal -->
                                             <div class="list-group-text">
-                                                <button type="button" class="btn btn-warning" style="color: white"
-                                                    data-bs-toggle="modal" data-bs-target="#modulEdit{{ $item->id }}"><i
-                                                        class="fa-solid fa-pencil"></i></button>
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#modul{{ $item->id }}">+</button>
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modulEdit{{ $item->id }}"><i class="icofont-edit text-success"></i></button>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modul{{ $item->id }}"><i class="icofont-ui-add"></i></button>
                                             </div>
 
                                             <!-- Modal -->
                                             <div class="modal fade" id="modul{{ $item->id }}" tabindex="-2"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-fullscreen">
+                                                <div class="modal-dialog modal-dialog-centered modal-xl">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h1 class="modal-title fs-5" id="exampleModalLabel">
@@ -160,32 +157,31 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-    <script>
-        const myModal = document.getElementById('myModal')
-        const myInput = document.getElementById('myInput')
+    @endsection
 
-        myModal.addEventListener('shown.bs.modal', () => {
-            myInput.focus()
-        })
-    </script>
+@section('script')
+<script>
+    const myModal = document.getElementById('myModal')
+    const myInput = document.getElementById('myInput')
 
-    {{-- <button type="button" class="btn btn-danger" onclick="()=>confirmDelete($jurusan->id)">Delete Jurusan</button> --}}
-    <script>
-        function confirmDelete(id) {
-            let text =
-                "Menghapus jurusan artinya menghapus semua kelas pada jurusan ini.\nOk untuk menghapus jurusan atau Cancel.";
-            if (confirm(text) == true) {
-                location.href = `http://127.0.0.1:8000/jurusan/delete/${id}`;
-            } else {
-                text = "You canceled!";
-            }
-            document.getElementById("demo").innerHTML = text;
+    myModal.addEventListener('shown.bs.modal', () => {
+        myInput.focus()
+    })
+</script>
+
+{{-- <button type="button" class="btn btn-danger" onclick="()=>confirmDelete($jurusan->id)">Delete Jurusan</button> --}}
+<script>
+    function confirmDelete(id) {
+        let text =
+            "Menghapus jurusan artinya menghapus semua kelas pada jurusan ini.\nOk untuk menghapus jurusan atau Cancel.";
+        if (confirm(text) == true) {
+            location.href = `http://127.0.0.1:8000/jurusan/delete/${id}`;
+        } else {
+            text = "You canceled!";
         }
-    </script>
-
-    <Script>
-        function update
-    </Script>
+        document.getElementById("demo").innerHTML = text;
+    }
+</script>
 @endsection
