@@ -20,8 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('kode_siswa', 115)->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            // $table->string('user_role');
-            // $table->string('user_info')->default('siswa');
+            $table->enum('role', ['Administrator', 'Petugas', 'Siswa'])->default('Siswa');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -66,10 +66,10 @@
                     </li>
 
                     <li class="collapsed">
-                        <a class="m-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user')) { echo 'active'; } ?>" href="{{ route('siswa') }}"" data-bs-toggle="collapse" data-bs-target="#emp-Components" href="#"><i
+                        <a class="m-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user')) { echo 'active'; } ?>" href="{{ route('siswa') }}" data-bs-toggle="collapse" data-bs-target="#emp-Components" href="#"><i
                                 class="icofont-users-alt-5"></i> <span>Manage</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                         <!-- Menu: Sub menu ul -->
-                        <ul class="sub-menu collapse" id="emp-Components">
+                        <ul class="sub-menu collapse <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user')) { echo 'show'; } ?>" id="emp-Components">
                             <li><a class="ms-link <?php if (Route::is('user')) { echo 'active'; } ?>" href="{{ route('user') }}"><span>User</span></a></li>
                             <li><a class="ms-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit')) { echo 'active'; } ?>" href="{{ route('siswa') }}"><span>Siswa</span></a></li>
                             <li><a class="ms-link <?php if (Route::is('jurusan')) { echo 'active'; } ?>" href="{{route('jurusan')}}"> <span>Kelas</span></a></li>

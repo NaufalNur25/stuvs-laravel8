@@ -24,7 +24,7 @@ class AuthenticateController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email:dns'],
+            'email' => ['required'],
             'password' => ['required']
         ]);
 
@@ -89,7 +89,7 @@ class AuthenticateController extends Controller
 
         $validatedData['password'] = Hash::make($validatedData['password']);
         $validatedData += array('kode_siswa' => $kdSiswa);
-        User::create($validatedData);
+        $user = User::create($validatedData);
 
         Siswa::where('nis', $siswa[0]->nis)->first()
         ->update([
@@ -100,5 +100,16 @@ class AuthenticateController extends Controller
         // dd('Register Berhasil');
     }
 
+    // public function create_role()
+    // {
+    //     return view('form.role-form', [
+    //         'role' => Role::all(),
+    //     ]);
+    // }
+
+    public function store_role($item)
+    {
+
+    }
 
 }
