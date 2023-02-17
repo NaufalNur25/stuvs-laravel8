@@ -56,9 +56,7 @@
             </div>
             <div class="col-md-6">
                 <label for="kelas" class="form-label">Kelas</label>
-                <select class="form-select" id="kelas" name="kelas_id" required>
-                    <option selected disabled>...</option>
-                </select>
+                <select class="form-select" id="kelas" name="kelas_id" required></select>
             </div>
 
 
@@ -76,9 +74,9 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-success" type="submit" id="submitBtn" disabled>Tambahkan Siswa</button>
+                    <button class="btn btn-success" type="submit" id="submitBtn" disabled>Tambahkan</button>
                     <button type="button" class="btn btn-outline-warning" id="importBtn" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal" disabled>Import Siswa</button>
+                        data-bs-target="#exampleModal" disabled>Import Data Siswa</button>
                 </div>
             @endif
         </form>
@@ -104,7 +102,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="{{ route('import-view') }}" class="btn btn-success px-5">Import</a>
+                <a href="{{ route('siswa.import') }}" class="btn btn-success px-5">Import</a>
             </div>
         </div>
     </div>
@@ -147,10 +145,23 @@
     </script>
 
     <script>
+        // const jurusanSelect = document.getElementById("jurusan");
+        // const kelasSelect = document.getElementById("kelas");
+
+        // jurusanSelect.addEventListener("change", () => {
+        //     if (jurusanSelect.value !== "...") {
+        //         kelasSelect.disabled = false;
+        //     } else {
+        //         kelasSelect.disabled = true;
+        //     }
+        // });
+    </script>
+
+    <script>
         $(function() {
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF_TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
@@ -178,7 +189,6 @@
                         }
                     });
                 });
-
                 $('#jurusan').trigger('change');
             });
         });

@@ -11,6 +11,9 @@
     <!-- plugin css file  -->
     <link rel="stylesheet" href="{{ asset('assets/plugin/datatables/responsive.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugin/datatables/dataTables.bootstrap5.min.css') }}">
+    @if(Request::is('form/*'))
+    <link rel="stylesheet" href="{{asset('assets/plugin/parsleyjs/css/parsley.css')}}">
+    @endif
     {{-- awsome font --}}
     <script src="https://kit.fontawesome.com/b397b32336.js" crossorigin="anonymous"></script>
     <!-- project css file  -->
@@ -18,6 +21,7 @@
 </head>
 
 <body>
+    {{-- {{dd(Request::is('form/*'))}} --}}
     <div id="mytask-layout" class="theme-indigo">
         <!-- sidebar -->
         <div class="sidebar px-4 py-4 py-md-5 me-0">
@@ -58,26 +62,29 @@
                 <!-- Menu: main ul -->
 
                 <ul class="menu-list flex-grow-1 mt-3">
-                    <li>
-                        <a class="m-link <?php if (Route::is('index')) {
-                            echo 'active';
-                        } ?>" href="{{ route('index') }}"><i
-                                class="icofont-home fs-5"></i><span>Dashboard</span></a>
-                    </li>
+                    <li><a class="m-link <?php if (Route::is('index')) { echo 'active';} ?>" href="{{ route('index') }}"><i class="icofont-home fs-5"></i><span>Dashboard</span></a></li>
 
                     <li class="collapsed">
-                        <a class="m-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user')) { echo 'active'; } ?>" href="{{ route('siswa') }}" data-bs-toggle="collapse" data-bs-target="#emp-Components" href="#"><i
+                        <a class="m-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user') || (Route::is('guru'))) { echo 'active'; } ?>" href="{{ route('siswa') }}" data-bs-toggle="collapse" data-bs-target="#emp-Components"><i
                                 class="icofont-users-alt-5"></i> <span>Manage</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                         <!-- Menu: Sub menu ul -->
-                        <ul class="sub-menu collapse <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user')) { echo 'show'; } ?>" id="emp-Components">
+                        <ul class="sub-menu collapse <?php if (Route::is('guru') || Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user')) { echo 'show'; } ?>" id="emp-Components">
                             <li><a class="ms-link <?php if (Route::is('user')) { echo 'active'; } ?>" href="{{ route('user') }}"><span>User</span></a></li>
+                            <li><a class="ms-link <?php if (Route::is('guru')) { echo 'active'; } ?>" href="{{ route('guru') }}"><span>Guru</span></a></li>
                             <li><a class="ms-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit')) { echo 'active'; } ?>" href="{{ route('siswa') }}"><span>Siswa</span></a></li>
                             <li><a class="ms-link <?php if (Route::is('jurusan')) { echo 'active'; } ?>" href="{{route('jurusan')}}"> <span>Kelas</span></a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a class="m-link" href="#"><i class="icofont-ticket"></i><span>Score</span></a>
+
+                    <li class="collapsed">
+                        <a class="m-link" href="#" data-bs-toggle="collapse" data-bs-target="#client-Components"><i
+                                class="icofont-users-alt-5"></i> <span>Manage</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                        <!-- Menu: Sub menu ul -->
+                        <ul class="sub-menu collapse" id="client-Components">
+                            <li><a class="ms-link" href="#"><span>User</span></a></li>
+                        </ul>
                     </li>
+
                     <li class="collapsed">
                         <a class="m-link" href="#"><i class="icofont-contrast"></i> <span>Preference</span><span
                                 class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
@@ -118,18 +125,41 @@
             <div class="header">
                 <nav class="navbar py-4">
                     <div class="container-xxl">
-                        @if (Route::is('index') || Route::is('siswa') || Route::is('jurusan') || Route::is('user'))
                             @include('partials.navbar')
-                            @include('partials.search')
-                        @else
+                            @if (Request::is('form/*'))
                             @include('partials.btn-back')
-                        @endif
-
+                            @else
+                            @include('partials.user-online')
+                            @endif
                     </div>
                 </nav>
             </div>
 
+            {{-- For Form --}}
+            @if(Request::is('form/*'))
+            <div class="row align-items-center">
+                <div class="border-0 mb-4">
+                    <div class="card-header py-3 no-bg bg-transparent border-bottom">
+                        <h3 class="fw-bold mb-0">Forms</h3>
+                    </div>
+                </div>
+            </div> <!-- Row end  -->
+
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                            <h6 class="mb-0 fw-bold "></h6>
+                        </div>
+                        <div class="card-body">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @else
             @yield('content')
+            @endif
         </div>
 
         <!-- Jquery Core Js -->
@@ -137,9 +167,19 @@
 
         <!-- Plugin Js-->
         <script src="{{ asset('assets/bundles/apexcharts.bundle.js') }}"></script>
+        @if(Request::is('form/*'))
+        <script src="{{asset('assets/plugin/parsleyjs/js/parsley.js')}}"></script>
+        <script>
+            $(function() {
+                // initialize after multiselect
+                $('#basic-form').parsley();
+            });
+        </script>
+        @endif
 
         <!-- Jquery Page Js -->
         <script src="{{ asset('assets/js/template.js') }}"></script>
+
 
         <!-- Plugin Js-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Kelas\Kelas;
 
-class Siswa extends Model
+class Guru extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -14,12 +14,11 @@ class Siswa extends Model
      * @var array
      */
     protected $fillable = [
-        'nis',
+        'nip',
         'nama_lengkap',
         'jenis_kelamin',
-        'kode_siswa',
         'kelas_id',
-        'nilai',
+        'kode_user',
     ];
 
     /**
@@ -28,18 +27,13 @@ class Siswa extends Model
      * @var array
      */
     protected $hidden = [
-        'password'
+    //
     ];
 
     use HasFactory;
 
-    public function Kelas()
+    public function kelas()
     {
-        return $this->belongsTo(Kelas::class);
-    }
-
-    public function User()
-    {
-        return $this->hasOne(User::class, 'kode_siswa', 'kode_siswa');
+        return $this->hasOne(Kelas::class, 'id', 'kelas_id');
     }
 }

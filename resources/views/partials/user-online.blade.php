@@ -1,4 +1,4 @@
-<!-- main menu Search-->
+<!-- main menu Profile Online-->
 <div class="d-flex">
     <a class="nav-link text-primary collapsed" href="help.html" title="Get Help">
         <i class="icofont-info-square fs-5"></i>

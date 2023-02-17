@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Siswa;
+use App\Models\User\Guru;
+use App\Models\User\User;
+use App\Models\User\Siswa;
 use App\Models\Kelas\Kelas;
-use App\Models\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 
 class Controller extends BaseController
@@ -18,17 +20,22 @@ class Controller extends BaseController
     public function index()
     {
         $siswa = Siswa::all();
+        $guru = Guru::all();
         $akun = User::all();
         $kelas = Kelas::all();
         $jumlahSiswa = Siswa::groupBy('jenis_kelamin')->selectRaw('jenis_kelamin, count(*) as jumlah')->get();
+        $jumlahGuru = Guru::groupBy('jenis_kelamin')->selectRaw('jenis_kelamin, count(*) as jumlah')->get();
 
         // dd($jumlahSiswa->where('jenis_kelamin', 'Perempuan')->first());
         return view('dashboard', [
             "siswa_count" => $siswa->count(),
+            "guru_count" => $guru->count(),
             "akun_count" => $akun->count(),
             "kelas_count" => $kelas->count(),
             "jumlah_siswa_laki_laki" => $jumlahSiswa->where('jenis_kelamin', 'Laki-laki')->first(),
             "jumlah_siswa_perempuan" => $jumlahSiswa->where('jenis_kelamin', 'Perempuan')->first(),
+            "jumlah_guru_laki_laki" => $jumlahGuru->where('jenis_kelamin', 'Laki-laki')->first(),
+            "jumlah_guru_perempuan" => $jumlahGuru->where('jenis_kelamin', 'Perempuan')->first(),
         ]);
     }
 
@@ -53,5 +60,16 @@ class Controller extends BaseController
         }
         // dd($item_result);
         return implode(" ", $item_result);
+    }
+
+    public function get_jurusan(Request $request){
+        $id_jurusan = $request->id_jurusan;
+        $kelas = Kelas::where('jurusan_id', $id_jurusan)->get();
+
+        $siswa = '';
+
+        foreach ($kelas as $item) {
+            echo "<option value='$item->id'>$item->nama_kelas</option>";
+        }
     }
 }

@@ -14,9 +14,10 @@ class CreateKelasTable extends Migration
     public function up()
     {
         Schema::create('kelas', function (Blueprint $table) {
-            $table->string('id')->index();
-            $table->string('jurusan_id')->references('id')->on('jurusans');
+            $table->string('id')->primary();
             $table->string('nama_kelas', 115);
+            $table->string('jurusan_id')->nullable()->references('id')->on('jurusans')->onDelete('cascade');
+            $table->string('guru_id')->nullable()->references('id')->on('gurus')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -4,7 +4,9 @@ namespace App\Models\Kelas;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Siswa;
+
+use App\Models\User\Siswa;
+use App\Models\User\Guru;
 use App\Models\Kelas\Jurusan;
 
 class Kelas extends Model
@@ -30,7 +32,7 @@ class Kelas extends Model
      * @var array
      */
     protected $hidden = [
-
+        //
     ];
 
     use HasFactory;
@@ -43,5 +45,10 @@ class Kelas extends Model
     public function Siswa()
     {
         return $this->hasMany(Siswa::class);
+    }
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class);
     }
 }

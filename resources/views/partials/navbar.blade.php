@@ -120,8 +120,8 @@
     </div>
     <div class="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center zindex-popover">
         <div class="u-info me-2">
-            <p class="mb-0 text-end line-height-sm"><span class="font-weight-bold">{Role}</span></p>
-            <small>Administrasi Profile</small>
+            <p class="mb-0 text-end line-height-sm"><span class="font-weight-bold">{{ auth()->user()->username }}</span></p>
+            <small>{{ auth()->user()->role }} Profile</small>
         </div>
         <a class="nav-link dropdown-toggle pulse p-0" href="#" role="button"
             data-bs-toggle="dropdown" data-bs-display="static">

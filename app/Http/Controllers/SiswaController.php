@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas\Jurusan;
-use App\Models\Kelas\Kelas;
-use App\Models\Siswa;
-use App\Models\User;
-use App\Models\Role;
-use Illuminate\Validation\Rule;
+use App\Models\User\Siswa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -37,49 +33,9 @@ class SiswaController extends Controller
         ]);
     }
 
-    public function user_show(){
-        $result = User::with(['siswa'])->get();
-        $result = $result->filter(function ($value, $key) {
-            return $value->siswa != null;
-        });
-
-        return view('user-table', [
-            'user' => $result
-        ]);
-    }
-
-    public function user_update(Request $request, $user){
-        $id = decrypt($user);
-        $user = User::find($id);
-
-        $validateData = $request->validate([
-            'username' => ['required', 'string', 'min:5', 'max:25', Rule::unique('users')->ignore($user->id)],
-            'role' => ['required'],
-        ]);
-
-        $user->update([
-            'username' => $validateData['username'],
-        ]);
-        $role = Role::find($validateData['role']);
-        $user->syncRoles($role);
-
-        return redirect()->route('user')->with('success', 'Berhasil mengubah user ' . $request['username']);
-    }
-
     public function create(){
         $jurusan = Jurusan::all();
         return view('form.siswa-form',compact('jurusan'));
-    }
-
-    public function get_jurusan(Request $request){
-        $id_jurusan = $request->id_jurusan;
-        $kelas = Kelas::where('jurusan_id', $id_jurusan)->get();
-
-        $siswa = '';
-
-        foreach ($kelas as $item) {
-            echo "<option value='$item->id'>$item->nama_kelas</option>";
-        }
     }
 
     public function store(Request $request){
@@ -107,7 +63,7 @@ class SiswaController extends Controller
             $validatedData += array('nis' => $nis_baru);
         }else {
             $validatedData = $request->validate([
-                'nis' => ['required', 'min:8', 'max:10', 'unique:App\Models\Siswa,nis'],
+                'nis' => ['required', 'min:8', 'max:10', 'unique:App\Models\User\Siswa,nis'],
                 'nama_lengkap' => ['required', 'max:225'],
                 'jenis_kelamin' => ['required'],
                 'kelas_id' => ['required'],
@@ -129,6 +85,7 @@ class SiswaController extends Controller
 
     public function update(Request $request, $id){
         $id = decrypt($id);
+
         $validatedData = $request->validate([
             'nama_lengkap' => ['required', 'max:225'],
             'jenis_kelamin' => ['required'],
@@ -142,7 +99,7 @@ class SiswaController extends Controller
     }
 
     public function delete($id){
-        Siswa::find($id)->delete();
+        Siswa::destroy($id);
         return redirect()->route('siswa')->with('success', 'Berhasil Menghapus data siswa.');
     }
 

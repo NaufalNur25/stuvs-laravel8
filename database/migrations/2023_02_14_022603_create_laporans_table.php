@@ -15,6 +15,7 @@ class CreateLaporansTable extends Migration
     {
         Schema::create('laporans', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id')->references('id')->on('user');
             $table->string('nis', 10)->references('nis')->on('siswas')->onDelete('cascade');
             $table->string('deskripsi_laporan_id', 10)->references('id')->on('siswas')->onDelete('cascade');
             $table->timestamps();

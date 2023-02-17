@@ -15,12 +15,12 @@ class CreateSiswasTable extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_siswa')->nullable()->references('kode_siswa')->on('users')->onDelete('cascade');
+            $table->string('kode_user')->nullable()->references('kode_user')->on('users')->onDelete('cascade');
             $table->string('kelas_id')->references('id')->on('kelas');
             $table->string('nis', 10)->unique();
             $table->string('nama_lengkap');
             $table->string('jenis_kelamin')->default('Laki-laki');
-            $table->string('nilai')->default(100);
+            // $table->string('nilai')->default(100);
             $table->timestamps();
         });
     }

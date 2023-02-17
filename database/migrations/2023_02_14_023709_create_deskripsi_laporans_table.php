@@ -15,6 +15,8 @@ class CreateDeskripsiLaporansTable extends Migration
     {
         Schema::create('deskripsi_laporans', function (Blueprint $table) {
             $table->id();
+            $table->string('kategori_pelanggaran_id')->references('id')->on('categori_laporans')->onDelete('cascade');
+            $table->text('deskripsi_laporan');
             $table->timestamps();
         });
     }

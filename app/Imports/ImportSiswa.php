@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\Siswa;
+use App\Models\User\Siswa;
 use App\Models\Kelas\Kelas;
 use App\Models\Kelas\Jurusan;
 use Illuminate\Support\Str;

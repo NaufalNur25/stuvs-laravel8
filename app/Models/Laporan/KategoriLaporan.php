@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DeskripsiLaporan extends Model
+class KategoriLaporan extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,8 +13,8 @@ class DeskripsiLaporan extends Model
      * @var array
      */
     protected $fillable = [
-        'kategori_pelanggaran_id',
-        'deskripsi_laporan',
+        'nama_kategori',
+        'deskripsi_pelanggaran',
     ];
 
     /**
@@ -28,13 +28,8 @@ class DeskripsiLaporan extends Model
 
     use HasFactory;
 
-    public function kategoriLaporan()
+    public function deskripsiLaporans()
     {
-        return $this->belongsTo(KategoriLaporan::class, 'kategori_pelanggaran_id');
-    }
-
-    public function laporan()
-    {
-        return $this->hasMany(Laporan::class, 'deskripsi_laporan_id');
+        return $this->hasMany(DeskripsiLaporan::class, 'kategori_pelanggaran_id');
     }
 }

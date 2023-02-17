@@ -83,8 +83,8 @@
                         <div class="card">
                             <div
                                 class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                <h6 class="mb-0 fw-bold ">Total Petugas</h6>
-                                <h4 class="mb-0 fw-bold ">0</h4>
+                                <h6 class="mb-0 fw-bold ">Total Guru</h6>
+                                <h4 class="mb-0 fw-bold ">{{ $guru_count }}</h4>
                             </div>
                             <div class="card-body">
                                 <div class="mt-3" id="apex-Petugas"></div>
@@ -131,7 +131,7 @@
                                             class="icofont-users-alt-2 fs-5"></i></span>
                                     <div class="d-flex flex-column ps-3  flex-fill">
                                         <h6 class="fw-bold mb-0 fs-4">{{ $akun_count }}</h6>
-                                        <span class="text-muted">Akun Siswa</span>
+                                        <span class="text-muted">Akun dibuat</span>
                                     </div>
                                     <i class="icofont-chart-bar-graph fs-3 text-muted"></i>
                                 </div>
@@ -356,12 +356,15 @@
         }
         $(function() {
             "use strict";
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
-            var banyakLakiLaki = <?php echo json_encode(@$jumlah_siswa_laki_laki); ?>;
-            var banyakPerempuan = <?php echo json_encode(@$jumlah_siswa_perempuan); ?>;
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            var banyakLakiLakiSiswa = <?php echo json_encode(@$jumlah_siswa_laki_laki); ?>;
+            var banyakPerempuanSiswa = <?php echo json_encode(@$jumlah_siswa_perempuan); ?>;
+
+            var banyakLakiLakiGuru = <?php echo json_encode(@$jumlah_guru_laki_laki); ?>;
+            var banyakPerempuanGuru = <?php echo json_encode(@$jumlah_guru_perempuan); ?>;
 
             // // console.log(banyakLakiLaki['jumlah']);
             // console.log(banyakPerempuan['jumlah']);
@@ -387,8 +390,8 @@
                         show: true,
                     },
                     colors: ['var(--chart-color4)', 'var(--chart-color3)'],
-                    series: [banyakLakiLaki ? banyakLakiLaki['jumlah'] : 0, banyakPerempuan ?
-                        banyakPerempuan['jumlah'] : 0
+                    series: [banyakLakiLakiSiswa ? banyakLakiLakiSiswa['jumlah'] : 0, banyakPerempuanSiswa ?
+                        banyakPerempuanSiswa['jumlah'] : 0
                     ],
                     responsive: [{
                         breakpoint: 480,
@@ -424,8 +427,10 @@
                         horizontalAlign: 'center',
                         show: true,
                     },
-                    colors: ['var(--chart-color5)', 'var(--chart-color2)'],
-                    series: [0],
+                    colors: ['var(--chart-color4)', 'var(--chart-color3)'],
+                    series: [banyakLakiLakiGuru ? banyakLakiLakiGuru['jumlah'] : 0, banyakPerempuanGuru ?
+                    banyakPerempuanGuru['jumlah'] : 0
+                    ],
                     responsive: [{
                         breakpoint: 480,
                         options: {

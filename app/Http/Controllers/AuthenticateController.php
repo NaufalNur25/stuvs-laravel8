@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\User;
-use App\Models\Siswa;
+use Illuminate\Validation\Rule;
+use App\Models\User\User;
+use App\Models\User\Siswa;
 
 class AuthenticateController extends Controller
 {
@@ -100,16 +101,28 @@ class AuthenticateController extends Controller
         // dd('Register Berhasil');
     }
 
-    // public function create_role()
-    // {
-    //     return view('form.role-form', [
-    //         'role' => Role::all(),
-    //     ]);
-    // }
+    public function show(){
+        $currentUser = auth()->user();
+        $result = User::whereNotIn('id', [$currentUser->id])->get();
 
-    public function store_role($item)
-    {
-
+        return view('user-table', [
+            'user' => $result
+        ]);
     }
 
+    public function update(Request $request, $user){
+        $id = decrypt($user);
+        $user = User::find($id);
+
+        $validateData = $request->validate([
+            'username' => ['required', 'string', 'min:5', 'max:25', Rule::unique('users')->ignore($user->id)],
+            'role' => ['required'],
+        ]);
+
+        $user->update([
+            'username' => $validateData['username'],
+        ]);
+
+        return redirect()->route('user')->with('success', 'Berhasil mengubah user ' . $request['username']);
+    }
 }

@@ -14,9 +14,9 @@ class Role
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $role)
     {
-        if(!auth()->check() || auth()->user()->role !== "Administrator"){
+        if(!auth()->check() || auth()->user()->role !== $role){
             abort(403, "Kamu tidak memiliki hak akses!");
         }
         return $next($request);
