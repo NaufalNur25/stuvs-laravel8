@@ -98,7 +98,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Import Siswa - Excel</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Import Guru - Excel</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -111,7 +111,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="{{ route('siswa.import') }}" class="btn btn-success px-5">Import</a>
+                    <a href="{{ route('guru.import') }}" class="btn btn-success px-5">Import</a>
                 </div>
             </div>
         </div>

@@ -22,6 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/tes', function () {
     return view('report');
 });
+
+Route::get('/profile', function () {
+    return view('profile');
+});
 Route::get('/laporan', function () {
     return view('laporan');
 });
@@ -84,6 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'form'], function () {
         Route::get('/create-new/guru', [GuruController::class, 'create'])->name('guru.create');
         Route::get('/edit/guru/{guru:id}', [GuruController::class, 'edit'])->name('guru.edit');
+        Route::get('/create-new/guru-import',[GuruController::class, 'importView']) ->name('guru.import');
 
         Route::get('/create-new/siswa', [SiswaController::class, 'create'])->name('siswa.create');
         Route::get('/edit/siswa/{siswa:id}', [SiswaController::class, 'edit'])->name('siswa.edit');

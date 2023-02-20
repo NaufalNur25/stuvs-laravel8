@@ -5,11 +5,18 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
       inputElement.click();
     });
 
+    // inputElement.addEventListener("change", (e) => {
+    //   if (inputElement.files.length) {
+    //     updateThumbnail(dropZoneElement, inputElement.files[0]);
+    //   }
+    // });
+
     inputElement.addEventListener("change", (e) => {
-      if (inputElement.files.length) {
-        updateThumbnail(dropZoneElement, inputElement.files[0]);
-      }
-    });
+        if (inputElement.files.length) {
+          updateThumbnail(dropZoneElement, inputElement.files[0]);
+        }
+      });
+
 
     dropZoneElement.addEventListener("dragover", (e) => {
       e.preventDefault();
@@ -69,3 +76,32 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
       thumbnailElement.style.backgroundImage = null;
     }
   }
+
+
+ window.addEventListener("load",()=>{
+    const filewrapper = document.getElementById("filewrapper");
+
+    input.addEventListener("change",(e)=>{
+        let fileName = e.target.files[0].name;
+        let fileType = e.target.value.split(".").pop();
+        fileshow(fileName);
+    })
+
+    // Show file
+    const fileshow = (fileName)=>{
+        const showfileboxElem= document.createElement("div");
+        showfileboxElem.classList.add("showfilebox");
+
+        const leftElem= document.createElement("div");
+        leftElem.classList.add("left");
+
+        const filetitleElem= document.createElement("h3");
+        filetitleElem.innerHTML = fileName;
+
+
+        leftElem.append(filetitleElem);
+        showfilebox.append(leftElem);
+        filewrapper.append(showfileboxElem);
+    }
+
+ })

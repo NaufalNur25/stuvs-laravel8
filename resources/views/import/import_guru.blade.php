@@ -5,7 +5,7 @@
             <form action="{{ route('import.siswa') }}" method="post" enctype="multipart/form-data" id="import-form">
                 @csrf
                 <div class="mb-5">
-                    <h5 for="formFile" class="form-label">Siswa Excel Import</h5>
+                    <h5 for="formFile" class="form-label">Guru Excel Import</h5>
                     <div class="wrapper">
                         <div class="boxfile">
                             <div class="drop-zone">
