@@ -97,3 +97,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/getjurusanid', [Controller::class, 'get_jurusan'])->name('ajax.getJurusanID');
 });
 
+Route::get('/profile', function () {
+    return view('profile');
+});
+

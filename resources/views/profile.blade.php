@@ -1,6 +1,11 @@
 @extends('layout.master-layout')
+<<<<<<< Updated upstream
 @section('content')
 
+=======
+
+@section('content')
+>>>>>>> Stashed changes
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +14,11 @@
 
 
 
+<<<<<<< Updated upstream
 <title>Profile</title>
+=======
+<title>Edit Profile</title>
+>>>>>>> Stashed changes
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +35,11 @@
 <div class="user-avatar">
 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
 </div>
+<<<<<<< Updated upstream
 <h5 class="user-name">Admin Stuvs</h5>
+=======
+<h5 class="user-name">Admin</h5>
+>>>>>>> Stashed changes
 <h6 class="user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2e575b45476e634f56594b4242004d4143">[email&#160;protected]</a></h6>
 </div>
 <div class="about">
@@ -58,13 +71,21 @@
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
+<<<<<<< Updated upstream
 <label for="phone">Phone</label>
+=======
+<label for="phone">NIS</label>
+>>>>>>> Stashed changes
 <input type="text" class="form-control" id="phone" placeholder="Enter phone number">
 </div>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
+<<<<<<< Updated upstream
 <label for="nis">NIS</label>
+=======
+<label for="website">NIS</label>
+>>>>>>> Stashed changes
 <input type="url" class="form-control" id="nis" placeholder="Enter your NIS">
 </div>
 </div>
@@ -181,4 +202,8 @@ body {
 </script>
 </body>
 </html>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 @endsection
