@@ -24103,7 +24103,7 @@ body.rtl_mode table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first
     top: 50%;
     position: absolute;
     border: 2px solid darken(#000,40%);
-    border-right: 3px solid #27ae60;
+    border-right: 3px solid #000;
     animation: rotate360 .5s infinite linear, exist .1s forwards ease ;
 
 }
@@ -24140,6 +24140,7 @@ body.rtl_mode table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first
     font-weight: 500;
     font-size: 20px;
     cursor: pointer;
+    border: 3px dashed #000;
     color: #20262E;
     border-radius: 10px;
   }
@@ -24175,13 +24176,59 @@ body.rtl_mode table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first
   }
 
   /* Show File Drag and Drop */
-
-  .showfile{
+  .wrapper{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 10px 0;
-    padding: 10px 15px;
-    box-shadow: #000000;
+    padding: 15px;
+    width: 100%;
+    min-height: 30vh;
   }
 
+  .boxfile{
+    max-width: 500px;
+    background: whitesmoke;
+    padding: 30px;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+
+  .showfilebox{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 10px 0;
+      padding: 10px 15px;
+      box-shadow: #000000;
+    }
+
+    .showfilebox .left{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .left .h5{
+        font-weight: 600;
+        font-size: 18px;
+        color: #000;
+        margin: 0;
+    }
+
+    .right .span{
+        background: green;
+        color: #fff;
+        width: 25px;
+        height: 25px;
+        font-size: 25px;
+        line-height: 25px;
+        display: inline-block;
+        text-align: center;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 50%;
+        -webkit-border-radius:50%;
+        -moz-border-radius:50%;
+        -ms-border-radius:50%;
+        -o-border-radius:50%;
+    }

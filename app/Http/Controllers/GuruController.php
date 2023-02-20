@@ -74,6 +74,11 @@ class GuruController extends Controller
 
     }
 
+    public function importView()
+    {
+        return view('import.import_guru');
+    }
+
 
     public function destroy($id)
     {
