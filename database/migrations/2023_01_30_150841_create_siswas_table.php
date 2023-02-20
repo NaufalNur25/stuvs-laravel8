@@ -15,30 +15,15 @@ class CreateSiswasTable extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_user')->nullable()->references('kode_user')->on('users')->onDelete('cascade');
-            $table->string('kelas_id')->references('id')->on('kelas');
             $table->string('nis', 10)->unique();
             $table->string('nama_lengkap');
             $table->string('jenis_kelamin')->default('Laki-laki');
-            // $table->string('nilai')->default(100);
+            $table->string('kode_user')->nullable()->references('kode_user')->on('users')->onDelete('cascade');
+            $table->string('kelas_id')->nullable()->references('id')->on('kelas')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    // public function up()
-    // {
-    //     Schema::create('siswas', function (Blueprint $table) {
-    //         $table->increments('id');
-    //         $table->string('kode_siswa')->unique();
-    //         $table->string('nis', 10)->unique();
-    //         $table->string('nama_lengkap');
-    //         $table->unsignedInteger('kelas_id');
-    //         $table->string('jenis_kelamin')->default('Laki-laki');
-    //         $table->double('nilai', 8, 2)->default(100);
-    //         $table->timestamps();
-    //         $table->foreign('kelas_id')->references('id')->on('kelas');
-    //     });
-    // }
     /**
      * Reverse the migrations.
      *

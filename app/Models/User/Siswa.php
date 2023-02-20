@@ -9,6 +9,8 @@ use App\Models\User\User;
 
 class Siswa extends Model
 {
+    public $keyType = 'string';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -28,7 +30,7 @@ class Siswa extends Model
      * @var array
      */
     protected $hidden = [
-        'password'
+    //
     ];
 
     use HasFactory;

@@ -42,13 +42,13 @@ class Kelas extends Model
         return $this->belongsTo(Jurusan::class);
     }
 
+    public function guru()
+    {
+        return $this->hasOne(Guru::class);
+    }
+
     public function Siswa()
     {
         return $this->hasMany(Siswa::class);
-    }
-
-    public function guru()
-    {
-        return $this->belongsTo(Guru::class);
     }
 }

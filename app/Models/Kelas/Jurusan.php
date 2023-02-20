@@ -28,7 +28,7 @@ class Jurusan extends Model
      * @var array
      */
     protected $hidden = [
-
+        //
     ];
 
     use HasFactory;

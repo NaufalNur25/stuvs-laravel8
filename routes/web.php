@@ -5,6 +5,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\JurusanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +19,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+<<<<<<< Updated upstream
 Route::get('/profile', function () {
     return view('profile');
+=======
+Route::get('/tes', function () {
+    return view('report');
+>>>>>>> Stashed changes
 });
 Route::get('/laporan', function () {
     return view('laporan');
@@ -27,6 +33,7 @@ Route::get('/laporan', function () {
 Route::get('/detail-laporan', function () {
     return view('detail-laporan');
 });
+
 
 
 Route::get('/login', [AuthenticateController::class, 'login_index'])->name('signin.index');
@@ -40,12 +47,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [Controller::class, 'index'])->name('index');
 
     Route::group(['prefix' => 'jurusan'], function () {
-        Route::get('/', [KelasController::class, 'jurusan_index'])->name('jurusan');
         Route::post('/', [KelasController::class, 'jurusan_store']);
         Route::get('delete/{id}', [KelasController::class, 'jurusan_delete'])->name('jurusan.delete');
     });
 
     Route::group(['prefix' => 'kelas'], function () {
+        Route::get('/', [KelasController::class, 'index'])->name('kelas');
+        Route::delete('/delete/{jurusan:id}', [KelasController::class, 'jurusan_delete'])->name('jurusan.delete');
+
+
+
         Route::get('detail/{id}', [KelasController::class, 'kelas_detail'])->name('kelas.detail');
         Route::get('edit/{id}/{nama_kelas}', [KelasController::class, 'kelas_edit'])->name('kelas.edit');
         Route::put('update/{id}', [KelasController::class, 'kelas_update'])->name('kelas.update');

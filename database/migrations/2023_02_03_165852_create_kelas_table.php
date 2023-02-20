@@ -16,8 +16,7 @@ class CreateKelasTable extends Migration
         Schema::create('kelas', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('nama_kelas', 115);
-            $table->string('jurusan_id')->nullable()->references('id')->on('jurusans')->onDelete('cascade');
-            $table->string('guru_id')->nullable()->references('id')->on('gurus')->onDelete('cascade');
+            $table->string('jurusan_id')->references('id')->on('jurusans')->onDelete('cascade');
             $table->timestamps();
         });
     }

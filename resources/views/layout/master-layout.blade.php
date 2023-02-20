@@ -72,13 +72,13 @@
                             <li><a class="ms-link <?php if (Route::is('user')) { echo 'active'; } ?>" href="{{ route('user') }}"><span>User</span></a></li>
                             <li><a class="ms-link <?php if (Route::is('guru')) { echo 'active'; } ?>" href="{{ route('guru') }}"><span>Guru</span></a></li>
                             <li><a class="ms-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit')) { echo 'active'; } ?>" href="{{ route('siswa') }}"><span>Siswa</span></a></li>
-                            <li><a class="ms-link <?php if (Route::is('jurusan')) { echo 'active'; } ?>" href="{{route('jurusan')}}"> <span>Kelas</span></a></li>
+                            <li><a class="ms-link <?php if (Route::is('kelas')) { echo 'active'; } ?>" href="{{route('kelas')}}"> <span>Kelas</span></a></li>
                         </ul>
                     </li>
 
                     <li class="collapsed">
                         <a class="m-link" href="#" data-bs-toggle="collapse" data-bs-target="#client-Components"><i
-                                class="icofont-users-alt-5"></i> <span>Manage</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                                class="icofont-dart"></i> <span>Laporan</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                         <!-- Menu: Sub menu ul -->
                         <ul class="sub-menu collapse" id="client-Components">
                             <li><a class="ms-link" href="#"><span>User</span></a></li>

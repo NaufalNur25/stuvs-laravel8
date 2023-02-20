@@ -1,7 +1,6 @@
 @extends('layout.master-layout')
 
 @section('content')
-
 <!-- Body: Body -->
 <div class="body d-flex py-3">
     <div class="container-xxl">
@@ -72,7 +71,7 @@
                             <div
                                 class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                 <h6 class="mb-0 fw-bold ">Total Murid</h6>
-                                <h4 class="mb-0 fw-bold ">{{ $siswa_count }}</h4>
+                                <h4 class="mb-0 fw-bold ">{{ $siswaCount }}</h4>
                             </div>
                             <div class="card-body">
                                 <div class="mt-3" id="apex-JenisKelamin"></div>
@@ -84,7 +83,7 @@
                             <div
                                 class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                 <h6 class="mb-0 fw-bold ">Total Guru</h6>
-                                <h4 class="mb-0 fw-bold ">{{ $guru_count }}</h4>
+                                <h4 class="mb-0 fw-bold ">{{ $guruCount }}</h4>
                             </div>
                             <div class="card-body">
                                 <div class="mt-3" id="apex-Petugas"></div>
@@ -130,7 +129,7 @@
                                         class="avatar lg light-success-bg rounded-circle text-center d-flex align-items-center justify-content-center"><i
                                             class="icofont-users-alt-2 fs-5"></i></span>
                                     <div class="d-flex flex-column ps-3  flex-fill">
-                                        <h6 class="fw-bold mb-0 fs-4">{{ $akun_count }}</h6>
+                                        <h6 class="fw-bold mb-0 fs-4">{{ $akunCount }}</h6>
                                         <span class="text-muted">Akun dibuat</span>
                                     </div>
                                     <i class="icofont-chart-bar-graph fs-3 text-muted"></i>
@@ -144,7 +143,7 @@
                                         class="avatar lg light-success-bg rounded-circle text-center d-flex align-items-center justify-content-center"><i
                                             class="icofont-holding-hands fs-5"></i></span>
                                     <div class="d-flex flex-column ps-3 flex-fill">
-                                        <h6 class="fw-bold mb-0 fs-4">{{ $kelas_count }}</h6>
+                                        <h6 class="fw-bold mb-0 fs-4">{{ $kelasCount }}</h6>
                                         <span class="text-muted">Banyak Kelas</span>
                                     </div>
                                     <i class="icofont-chart-line fs-3 text-muted"></i>
@@ -360,11 +359,11 @@
             var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
-            var banyakLakiLakiSiswa = <?php echo json_encode(@$jumlah_siswa_laki_laki); ?>;
-            var banyakPerempuanSiswa = <?php echo json_encode(@$jumlah_siswa_perempuan); ?>;
+            var banyakLakiLakiSiswa = <?php echo json_encode(@$jumlahSiswa->where('jenis_kelamin', 'Laki-laki')->pluck('jumlah')->first()); ?>;
+            var banyakPerempuanSiswa = <?php echo json_encode(@$jumlahSiswa->where('jenis_kelamin', 'Perempuan')->pluck('jumlah')->first()); ?>;
 
-            var banyakLakiLakiGuru = <?php echo json_encode(@$jumlah_guru_laki_laki); ?>;
-            var banyakPerempuanGuru = <?php echo json_encode(@$jumlah_guru_perempuan); ?>;
+            var banyakLakiLakiGuru = <?php echo json_encode(@$jumlahGuru->where('jenis_kelamin', 'Laki-laki')->pluck('jumlah')->first()); ?>;
+            var banyakPerempuanGuru = <?php echo json_encode(@$jumlahGuru->where('jenis_kelamin', 'Perempuan')->pluck('jumlah')->first()); ?>;
 
             // // console.log(banyakLakiLaki['jumlah']);
             // console.log(banyakPerempuan['jumlah']);
@@ -380,7 +379,7 @@
                         type: 'donut',
                         align: 'center',
                     },
-                    labels: ['Man', 'Women'],
+                    labels: ['Laki-laki', 'Perempuan'],
                     dataLabels: {
                         enabled: false,
                     },
@@ -390,9 +389,7 @@
                         show: true,
                     },
                     colors: ['var(--chart-color4)', 'var(--chart-color3)'],
-                    series: [banyakLakiLakiSiswa ? banyakLakiLakiSiswa['jumlah'] : 0, banyakPerempuanSiswa ?
-                        banyakPerempuanSiswa['jumlah'] : 0
-                    ],
+                    series: [banyakLakiLakiSiswa || 0, banyakPerempuanSiswa || 0],
                     responsive: [{
                         breakpoint: 480,
                         options: {
@@ -409,7 +406,7 @@
                 chart.render();
             });
 
-            // Petugas Data
+            // Guru Data
             $(document).ready(function() {
                 var options = {
                     align: 'center',
@@ -418,7 +415,7 @@
                         type: 'donut',
                         align: 'center',
                     },
-                    labels: ['Online', 'Offline'],
+                    labels: ['Laki-laki', 'Perempuan'],
                     dataLabels: {
                         enabled: false,
                     },
@@ -428,9 +425,7 @@
                         show: true,
                     },
                     colors: ['var(--chart-color4)', 'var(--chart-color3)'],
-                    series: [banyakLakiLakiGuru ? banyakLakiLakiGuru['jumlah'] : 0, banyakPerempuanGuru ?
-                    banyakPerempuanGuru['jumlah'] : 0
-                    ],
+                    series: [banyakLakiLakiGuru || 0, banyakPerempuanGuru || 0],
                     responsive: [{
                         breakpoint: 480,
                         options: {
@@ -444,144 +439,6 @@
                     }]
                 }
                 var chart = new ApexCharts(document.querySelector("#apex-Petugas"), options);
-                chart.render();
-            });
-
-            // Employees Analytics
-            $(document).ready(function() {
-                var options = {
-                    series: [{
-                        name: 'Laporan',
-                        data: [4, 19, 7, 35, 14, 27, 9, 12],
-                    }],
-                    chart: {
-                        height: 140,
-                        type: 'line',
-                        toolbar: {
-                            show: false,
-                        }
-                    },
-                    grid: {
-                        show: false,
-                        xaxis: {
-                            lines: {
-                                show: false
-                            }
-                        },
-                        yaxis: {
-                            lines: {
-                                show: false
-                            }
-                        },
-                    },
-                    stroke: {
-                        width: 4,
-                        curve: 'smooth',
-                        colors: ['var(--chart-color2)'],
-                    },
-                    xaxis: {
-                        type: 'datetime',
-                        categories: ['1/11/2021', '2/11/2021', '3/11/2021', '4/11/2021', '5/11/2021',
-                            '6/11/2021', '7/11/2021', '8/11/2021'
-                        ],
-                        tickAmount: 10,
-                        labels: {
-                            formatter: function(value, timestamp, opts) {
-                                return opts.dateFormatter(new Date(timestamp), 'dd MMM')
-                            }
-                        }
-                    },
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            shade: 'dark',
-                            gradientToColors: ["var(--chart-color3)"],
-                            shadeIntensity: 1,
-                            type: 'horizontal',
-                            opacityFrom: 1,
-                            opacityTo: 1,
-                            stops: [0, 100, 100, 100],
-                        },
-                    },
-                    markers: {
-                        size: 3,
-                        colors: ["#FFA41B"],
-                        strokeColors: "#ffffff",
-                        strokeWidth: 2,
-                        hover: {
-                            size: 7,
-                        }
-                    },
-                    yaxis: {
-                        show: false,
-                        min: -10,
-                        max: 50,
-                    }
-                };
-
-                var chart = new ApexCharts(document.querySelector("#apex-emplyoeeAnalytics"), options);
-                chart.render();
-            });
-
-            // Hr Resorce
-            $(document).ready(function() {
-
-                var options = {
-                    series: [{
-                        name: 'Ui/Ux Designer',
-                        data: [45, 25, 44, 23, 25, 41, 32, 25, 22, 65, 22, 29]
-                    }, {
-                        name: 'App Development',
-                        data: [45, 12, 25, 22, 19, 22, 29, 23, 23, 25, 41, 32]
-                    }, {
-                        name: 'Quality Assurance',
-                        data: [45, 25, 32, 25, 22, 65, 44, 23, 25, 41, 22, 29]
-                    }, {
-                        name: 'Web Developer',
-                        data: [32, 25, 22, 11, 22, 29, 16, 25, 9, 23, 25, 13]
-                    }],
-                    chart: {
-                        type: 'bar',
-                        height: 300,
-                        stacked: true,
-                        toolbar: {
-                            show: false
-                        },
-                        zoom: {
-                            enabled: true
-                        }
-                    },
-                    colors: ['var(--chart-color1)', 'var(--chart-color2)', 'var(--chart-color3)',
-                        'var(--chart-color4)'
-                    ],
-                    responsive: [{
-                        breakpoint: 480,
-                        options: {
-                            legend: {
-                                position: 'bottom',
-                                offsetX: -10,
-                                offsetY: 0
-                            }
-                        }
-                    }],
-                    xaxis: {
-                        categories: ['Jan', 'Feb', 'March', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sept',
-                            'Oct', 'Nov', 'Dec'
-                        ],
-                    },
-                    legend: {
-                        position: 'top', // top, bottom
-                        horizontalAlign: 'right', // left, right
-                    },
-                    dataLabels: {
-                        enabled: false,
-                    },
-                    fill: {
-                        opacity: 1
-                    }
-                };
-
-                var chart = new ApexCharts(document.querySelector("#hiringsources"), options);
                 chart.render();
             });
         });

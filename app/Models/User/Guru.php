@@ -34,6 +34,6 @@ class Guru extends Model
 
     public function kelas()
     {
-        return $this->hasOne(Kelas::class, 'id', 'kelas_id');
+        return $this->belongsTo(Kelas::class);
     }
 }

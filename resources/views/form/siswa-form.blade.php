@@ -76,7 +76,7 @@
                 <div class="col-12">
                     <button class="btn btn-success" type="submit" id="submitBtn" disabled>Tambahkan</button>
                     <button type="button" class="btn btn-outline-warning" id="importBtn" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal" disabled>Import Data Siswa</button>
+                        data-bs-target="#exampleModal">Import Data Siswa</button>
                 </div>
             @endif
         </form>
@@ -136,10 +136,8 @@
         document.getElementById("validating").addEventListener("change", function() {
             if (this.checked) {
                 document.getElementById("submitBtn").disabled = false;
-                document.getElementById("importBtn").disabled = false;
             } else {
                 document.getElementById("submitBtn").disabled = true;
-                document.getElementById("importBtn").disabled = true;
             }
         });
     </script>

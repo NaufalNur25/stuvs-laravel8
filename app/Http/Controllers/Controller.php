@@ -19,24 +19,18 @@ class Controller extends BaseController
 
     public function index()
     {
-        $siswa = Siswa::all();
-        $guru = Guru::all();
-        $akun = User::all();
-        $kelas = Kelas::all();
+        $siswaCount = Siswa::count();
+        $guruCount = Guru::count();
+        $akunCount = User::count();
+        $kelasCount = Kelas::count();
         $jumlahSiswa = Siswa::groupBy('jenis_kelamin')->selectRaw('jenis_kelamin, count(*) as jumlah')->get();
         $jumlahGuru = Guru::groupBy('jenis_kelamin')->selectRaw('jenis_kelamin, count(*) as jumlah')->get();
 
         // dd($jumlahSiswa->where('jenis_kelamin', 'Perempuan')->first());
-        return view('dashboard', [
-            "siswa_count" => $siswa->count(),
-            "guru_count" => $guru->count(),
-            "akun_count" => $akun->count(),
-            "kelas_count" => $kelas->count(),
-            "jumlah_siswa_laki_laki" => $jumlahSiswa->where('jenis_kelamin', 'Laki-laki')->first(),
-            "jumlah_siswa_perempuan" => $jumlahSiswa->where('jenis_kelamin', 'Perempuan')->first(),
-            "jumlah_guru_laki_laki" => $jumlahGuru->where('jenis_kelamin', 'Laki-laki')->first(),
-            "jumlah_guru_perempuan" => $jumlahGuru->where('jenis_kelamin', 'Perempuan')->first(),
-        ]);
+        return view('dashboard', compact(
+            'siswaCount', 'guruCount', 'akunCount', 'kelasCount',
+            'jumlahSiswa', 'jumlahGuru'
+        ));
     }
 
     public function getUppercase($item): String

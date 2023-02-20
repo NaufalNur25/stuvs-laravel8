@@ -18,7 +18,7 @@ class CreateGurusTable extends Migration
             $table->string('nip', 20)->unique();
             $table->string('nama_lengkap');
             $table->string('jenis_kelamin')->default('Laki-laki');
-            $table->string('kelas_id')->references('id')->on('kelas')->nullable();
+            $table->string('kelas_id')->nullable()->references('id')->on('kelas')->onDelete('cascade');
             $table->string('kode_user')->nullable()->references('kode_user')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
