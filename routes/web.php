@@ -19,13 +19,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< Updated upstream
-Route::get('/profile', function () {
-    return view('profile');
-=======
 Route::get('/tes', function () {
     return view('report');
->>>>>>> Stashed changes
 });
 Route::get('/laporan', function () {
     return view('laporan');

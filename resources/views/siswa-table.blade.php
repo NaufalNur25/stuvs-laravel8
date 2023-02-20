@@ -42,8 +42,8 @@
                                             <td><a href="ticket-detail.html" class="fw-bold text-secondary">{{ $item->nis }}</a></td>
                                             <td><span class="fw-bold ms-1">{{ $item->nama_lengkap }}</span></td>
                                             <td>{{ $item->jenis_kelamin }}</td>
-                                            <td>{{ $item->kelas->nama_kelas }}</td>
-                                            <td>{{ $item->kelas->jurusan->nama_jurusan }}</td>
+                                            <td>{{ optional($item->kelas)->nama_kelas }}</td>
+                                            <td>{{ optional($item->kelas->jurusan)->nama_jurusan }}</td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                     <a href="{{ route('siswa.edit', encrypt($item->id)) }}" class="btn btn-outline-secondary"><i class="icofont-edit text-success"></i></a>

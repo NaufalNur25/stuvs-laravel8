@@ -81,21 +81,21 @@ class KelasController extends Controller
     public function jurusan_delete(Jurusan $jurusan){
         $kelas = Kelas::where('jurusan_id', $jurusan->id)->get();
 
-        foreach ($kelas as $key => $k) {
-            $siswa = Siswa::where('kelas_id', $k[$key]->kelas_id)->get();
-            dd($siswa);
+        foreach ($kelas as $k) {
+            $siswa = Siswa::where('kelas_id', $k->id)->get();
             foreach ($siswa as $s) {
                 $s->delete();
             }
 
-            $guru = Guru::where('kelas_id', $k[$key])->get();
+            $guru = Guru::where('kelas_id', $k->id)->get();
             foreach ($guru as $g) {
                 $g->delete();
             }
+            $k->delete();
         }
 
-        $kelas->delete();
         $jurusan->delete();
+
 
         return redirect()->route('kelas')->with('success', 'Berhasil menghapus data Jurusan.');
     }
