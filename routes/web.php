@@ -18,9 +18,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/tes', function () {
-    return view('tes');
+Route::get('/profile', function () {
+    return view('profile');
 });
+Route::get('/laporan', function () {
+    return view('laporan');
+});
+Route::get('/detail-laporan', function () {
+    return view('detail-laporan');
+});
+
 
 Route::get('/login', [AuthenticateController::class, 'login_index'])->name('signin.index');
 Route::post('/login', [AuthenticateController::class, 'authenticate'])->name('signin.auth');
