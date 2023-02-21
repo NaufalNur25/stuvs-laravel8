@@ -147,12 +147,8 @@
                     </div>
                 </div>
                 <div class="list-group m-2 ">
-                    <a href="task.html"
-                        class="list-group-item list-group-item-action border-0 "><i
-                            class="icofont-tasks fs-5 me-3"></i>My Task</a>
-                    <a href="members.html"
-                        class="list-group-item list-group-item-action border-0 "><i
-                            class="icofont-ui-user-group fs-6 me-3"></i>members</a>
+                    <a href="{{ route('profile.edit', encrypt(auth()->user()->id)) }}" class="list-group-item list-group-item-action border-0 "><i class="icofont-user-alt-7 fs-6 me-3"></i>Profile</a>
+                    <a href="" class="list-group-item list-group-item-action border-0 "><i class="icofont-ui-user-group fs-6 me-3"></i>members</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button

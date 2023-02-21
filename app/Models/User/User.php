@@ -24,7 +24,7 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
-        'kode_siswa',
+        'kode_user',
     ];
 
     /**
@@ -35,7 +35,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'kode_siswa',
+        'kode_user',
     ];
 
     /**
@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class, 'kode_siswa', 'kode_siswa');
+        return $this->belongsTo(Siswa::class, 'kode_user', 'kode_user');
     }
 
     public function laporans()

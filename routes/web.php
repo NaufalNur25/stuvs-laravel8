@@ -5,7 +5,6 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\GuruController;
-use App\Http\Controllers\JurusanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +22,6 @@ Route::get('/tes', function () {
     return view('report');
 });
 
-Route::get('/profile', function () {
-    return view('profile');
-});
 Route::get('/laporan', function () {
     return view('laporan');
 });
@@ -93,6 +89,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/create-new/siswa', [SiswaController::class, 'create'])->name('siswa.create');
         Route::get('/edit/siswa/{siswa:id}', [SiswaController::class, 'edit'])->name('siswa.edit');
         Route::get('/create-new/siswa-import', [SiswaController::class, 'importView'])->name('siswa.import');
+
+        Route::get('/edit/profile/{auth:id}', [AuthenticateController::class, 'edit'])->name('profile.edit');
     });
     Route::post('/getjurusanid', [Controller::class, 'get_jurusan'])->name('ajax.getJurusanID');
 });

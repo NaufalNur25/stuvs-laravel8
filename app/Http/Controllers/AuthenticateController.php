@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use App\Models\User\User;
 use App\Models\User\Siswa;
+use Illuminate\Http\Request;
+use App\Models\Kelas\Jurusan;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticateController extends Controller
 {
@@ -64,11 +65,7 @@ class AuthenticateController extends Controller
             'password' => ['required', 'confirmed', 'min:5', 'max:225']
         ]);
 
-
-        // $kdSiswa = 'SISWA-'.Hash::make($validatedData['username']);
-        // dd($kdSiswa);
-
-        $kdSiswa = 'SISWA-'.substr(Hash::make($validatedData['username']), 0, 15);
+        $kdUser = 'SISWA-'.substr(Hash::make($validatedData['username']), 0, 15);
         $siswa = DB::table('siswas')->where('nis', $request->nis)->get();
         // dd(count($siswa) == 0);
         if(count($siswa) == 0){
@@ -89,12 +86,12 @@ class AuthenticateController extends Controller
         // dd($validatedData);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
-        $validatedData += array('kode_siswa' => $kdSiswa);
-        $user = User::create($validatedData);
+        $validatedData += array('kode_user' => $kdUser);
+        User::create($validatedData);
 
         Siswa::where('nis', $siswa[0]->nis)->first()
         ->update([
-            'kode_siswa' => $kdSiswa
+            'kode_user' => $kdUser
         ]);
 
         return redirect('/login')->with('success', 'Regisration successfull! Please login');
@@ -124,5 +121,12 @@ class AuthenticateController extends Controller
         ]);
 
         return redirect()->route('user')->with('success', 'Berhasil mengubah user ' . $request['username']);
+    }
+
+    public function edit() {
+        // $user = User::where('id', Auth::user()->id)->first();
+        $user = User::where('id', Auth::user()->id)->with('siswa')->first();
+        $jurusan = Jurusan::all();
+        return view('form.profile-form', compact('user', 'jurusan'));
     }
 }

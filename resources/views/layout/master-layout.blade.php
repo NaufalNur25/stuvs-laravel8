@@ -11,6 +11,7 @@
     <!-- plugin css file  -->
     <link rel="stylesheet" href="{{ asset('assets/plugin/datatables/responsive.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugin/datatables/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/my-profile.css') }}">
     @if(Request::is('form/*'))
     <link rel="stylesheet" href="{{asset('assets/plugin/parsleyjs/css/parsley.css')}}">
     @endif
@@ -65,10 +66,10 @@
                     <li><a class="m-link <?php if (Route::is('index')) { echo 'active';} ?>" href="{{ route('index') }}"><i class="icofont-home fs-5"></i><span>Dashboard</span></a></li>
 
                     <li class="collapsed">
-                        <a class="m-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user') || (Route::is('guru'))) { echo 'active'; } ?>" href="{{ route('siswa') }}" data-bs-toggle="collapse" data-bs-target="#emp-Components"><i
+                        <a class="m-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user') || (Route::is('guru')) || (Route::is('kelas'))) { echo 'active'; } ?>" href="{{ route('siswa') }}" data-bs-toggle="collapse" data-bs-target="#emp-Components"><i
                                 class="icofont-users-alt-5"></i> <span>Manage</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                         <!-- Menu: Sub menu ul -->
-                        <ul class="sub-menu collapse <?php if (Route::is('guru') || Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user')) { echo 'show'; } ?>" id="emp-Components">
+                        <ul class="sub-menu collapse <?php if (Route::is('guru') || Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user') || Route::is('kelas')) { echo 'show'; } ?>" id="emp-Components">
                             <li><a class="ms-link <?php if (Route::is('user')) { echo 'active'; } ?>" href="{{ route('user') }}"><span>User</span></a></li>
                             <li><a class="ms-link <?php if (Route::is('guru')) { echo 'active'; } ?>" href="{{ route('guru') }}"><span>Guru</span></a></li>
                             <li><a class="ms-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit')) { echo 'active'; } ?>" href="{{ route('siswa') }}"><span>Siswa</span></a></li>
