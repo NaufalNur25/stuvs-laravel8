@@ -22,18 +22,17 @@ class ImportSiswa implements ToCollection
             if($key == 0){
                 continue;
             }else{
-                $jurusan_query = (Jurusan::where('initial', str_replace(' ', '', $row[3])))->count();
+                $jurusan_query = (Jurusan::where('nama_jurusan', $row[3]))->count();
                 $kelas_querry = (Kelas::where('nama_kelas', str_replace(' ', '', $row[2])))->count();
 
                 $initial = explode('-', $row[2]);
                 if (!$kelas_querry && !$jurusan_query) {
                     Jurusan::create([
                         'id' => $row[3].'-'.strtoupper(Str::random(5)),
-                        'initial' => $row[3],
                         'nama_jurusan' => $row[3],
                     ]);
 
-                    $jurusan_item = Jurusan::where('initial', $row[3])->first();
+                    $jurusan_item = Jurusan::where('nama_jurusan', $row[3])->first();
 
                     Kelas::create([
                         'id' => str_replace(' ', '', strtoupper($initial[0] . $initial[1])) . '-' . strtoupper(Str::random(5)),
@@ -44,7 +43,7 @@ class ImportSiswa implements ToCollection
                 }
 
                 if (!$kelas_querry && $jurusan_query) {
-                    $jurusan_item = Jurusan::where('initial', $row[3])->first();
+                    $jurusan_item = Jurusan::where('nama_jurusan', $row[3])->first();
                     $initial = explode('-', $row[2]);
                     Kelas::create([
                         'id' => str_replace(' ', '', strtoupper($initial[0] . $initial[1])) . '-' . strtoupper(Str::random(5)),

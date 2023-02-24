@@ -42,21 +42,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [Controller::class, 'index'])->name('index');
 
     Route::group(['prefix' => 'jurusan'], function () {
-        Route::post('/', [KelasController::class, 'jurusan_store']);
-        Route::get('delete/{id}', [KelasController::class, 'jurusan_delete'])->name('jurusan.delete');
+        Route::post('/create-new/jurusan/store', [KelasController::class, 'jurusan_store'])->name('jurusan.store');
+        Route::delete('delete/{jurusan:id}', [KelasController::class, 'jurusan_delete'])->name('jurusan.delete');
     });
 
     Route::group(['prefix' => 'kelas'], function () {
         Route::get('/', [KelasController::class, 'index'])->name('kelas');
-        Route::delete('/delete/{jurusan:id}', [KelasController::class, 'jurusan_delete'])->name('jurusan.delete');
+        Route::post('/create-new/kelas/store', [KelasController::class, 'kelas_store'])->name('kelas.store');
+        Route::put('update/{id}', [KelasController::class, 'kelas_update'])->name('kelas.update');
+        Route::delete('delete/{kelas:id}', [KelasController::class, 'kelas_delete'])->name('kelas.delete');
 
 
 
         Route::get('detail/{id}', [KelasController::class, 'kelas_detail'])->name('kelas.detail');
         Route::get('edit/{id}/{nama_kelas}', [KelasController::class, 'kelas_edit'])->name('kelas.edit');
-        Route::put('update/{id}', [KelasController::class, 'kelas_update'])->name('kelas.update');
-        Route::get('delete/{id}', [KelasController::class, 'kelas_delete'])->name('kelas.delete');
-        Route::post('/', [KelasController::class, 'kelas_store']);
     });
 
     Route::group(['prefix' => 'siswa'], function () {
@@ -73,6 +72,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/create-new/guru/store', [GuruController::class, 'store'])->name('guru.store');
         Route::PUT('/update/{guru:id}', [GuruController::class, 'update'])->name('guru.update');
         Route::delete('/delete/{guru:id}', [GuruController::class, 'destroy'])->name('guru.delete');
+
+        Route::post('/file-import/import', [GuruController::class, 'import'])->name('import.guru');
     });
 
     Route::group(['prefix' => 'user'], function () {
@@ -89,6 +90,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/create-new/siswa', [SiswaController::class, 'create'])->name('siswa.create');
         Route::get('/edit/siswa/{siswa:id}', [SiswaController::class, 'edit'])->name('siswa.edit');
         Route::get('/create-new/siswa-import', [SiswaController::class, 'importView'])->name('siswa.import');
+
+        Route::get('/create-new/jurusan', [KelasController::class, 'jurusan_create'])->name('jurusan.create');
+        Route::get('/create-new/kelas', [KelasController::class, 'kelas_create'])->name('kelas.create');
+
 
         Route::get('/edit/profile/{auth:id}', [AuthenticateController::class, 'edit'])->name('profile.edit');
     });

@@ -15,7 +15,6 @@ class CreateJurusansTable extends Migration
     {
         Schema::create('jurusans', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('initial')->unique();
             $table->string('nama_jurusan', 115);
             $table->timestamps();
         });

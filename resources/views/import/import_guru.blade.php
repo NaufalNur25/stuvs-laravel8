@@ -2,7 +2,7 @@
 @section('content')
     <div class="body d-flex py-3">
         <div class="container-xxl">
-            <form action="{{ route('import.siswa') }}" method="post" enctype="multipart/form-data" id="import-form">
+            <form action="{{ route('import.guru') }}" method="post" enctype="multipart/form-data" id="import-form">
                 @csrf
                 <div class="mb-5">
                     <h5 for="formFile" class="form-label">Guru Excel Import</h5>

@@ -2,35 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kelas\Jurusan;
 use App\Models\User\Siswa;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ImportSiswa;
+use Illuminate\Http\Request;
+use App\Models\Kelas\Jurusan;
+use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiswaController extends Controller
 {
-    public function index($item = null){
-        $result = Siswa::with(['kelas', 'kelas.jurusan']);
+    public function index($item = null)
+    {
+        $siswa = Siswa::with(['kelas', 'kelas.jurusan']);
 
         if ($item) {
-            $result->whereHas('kelas', function ($query) use ($item) {
+            $siswa->whereHas('kelas', function ($query) use ($item) {
                 $query->where('nama_kelas', $item);
             });
         }
-        $result = $result->get();
 
-        $kelas = '';
-        if ($result->isNotEmpty()) {
-            $kelas = ($result->first())->kelas->nama_kelas;
-        }
+        $siswa = $siswa->get();
+        $kelas = $siswa->isNotEmpty() ? $siswa->first()->kelas->nama_kelas : '';
 
-        return view('siswa-table', [
-            'siswa' => $result,
-            'kelas' => $kelas,
-        ]);
+        return view('siswa-table', compact('siswa', 'kelas'));
     }
 
     public function create(){
@@ -85,15 +81,16 @@ class SiswaController extends Controller
 
     public function update(Request $request, $id){
         $id = decrypt($id);
+        $siswa = Siswa::find($id);
 
         $validatedData = $request->validate([
+            'nis' => ['required', 'min:8', 'max:10', Rule::unique('siswas')->ignore($siswa->id)],
             'nama_lengkap' => ['required', 'max:225'],
             'jenis_kelamin' => ['required'],
             'kelas_id' => ['required'],
         ]);
-        $validatedData['nama_lengkap'] = strtoupper($validatedData['nama_lengkap']);
-        $siswa = Siswa::find($id);
 
+        $validatedData['nama_lengkap'] = strtoupper($validatedData['nama_lengkap']);
         $siswa->update($validatedData);
         return redirect()->route('siswa')->with('success', 'Berhasil mengubah data siswa dengan NIS: '. $siswa->nis);
     }
@@ -109,7 +106,9 @@ class SiswaController extends Controller
     }
 
     public function import(Request $request){
-        Excel::import(new ImportSiswa, $request->file('file'));
+        foreach ($request->file('file') as $item) {
+            Excel::import(new ImportSiswa, $item);
+        }
         return redirect()->route('siswa')->with('success', 'Berhasil import semua data siswa.');
     }
 

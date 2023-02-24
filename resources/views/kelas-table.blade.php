@@ -6,8 +6,12 @@
     <div class="container-xxl">
         <div class="row align-items-center g-3 mb-3">
             <div class="border-0 mb-4">
-                <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <h3 class="fw-bold mb-0">Kelas</h3>
+                <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 border-bottom">
+                    <h3 class="fw-bold me-auto">Kelas</h3>
+                    <button type="button" class="btn btn-outline-warning me-2" id="importBtn" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">Import Kelas dan Siswa</button>
+                    <a href="{{ route('jurusan.create') }}" class="btn btn-dark btn-set-task w-sm-100"><i
+                        class="icofont-plus-circle me-2 fs-6"></i>Tambah Jurusan</a>
                 </div>
             </div>
         </div> <!-- Row end  -->
@@ -20,11 +24,15 @@
             @endif
             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12">
                 <div class="card">
-                    <div class="card-header py-3">
-                        <h6 class="mb-0 fw-bold ">List Jurusan:</h6>
+                    <div class="card-header align-items-center d-flex px-0 justify-content-between py-3 mx-3">
+                        <h6 class="mb-0 fw-bold">List Jurusan:</h6>
+                        @if ($jurusan->count() > 0)
+                        <a href="{{ route('kelas.create') }}" class="btn btn-dark btn-set-task w-sm-100"><i
+                            class="icofont-plus-circle me-2 fs-6"></i>Tambah Kelas</a>
+                        @endif
                     </div>
                     <div class="card-body">
-                        @if ($jurusan)
+                        @if ($jurusan->count() > 0)
                             <ul class="list-group">
                                 @foreach ($jurusan as $key => $item)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -42,7 +50,7 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    @if (count($jurusan))
+                                                    @if ($item->kelas->count() > 0)
                                                         <ul class="list-group my-5">
                                                             @foreach ($jurusan[$key]->kelas as $detail)
                                                             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -54,9 +62,15 @@
                                                                 </button>
                                                                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                                     <li><a class="dropdown-item" href="">Edit Kelas</a></li>
-                                                                    <li><a class="dropdown-item" href="">Lihat Siswa</a></li>
+                                                                    <li><a class="dropdown-item" href="{{route('siswa', $detail->nama_kelas)}}">Lihat Siswa</a></li>
                                                                     <li><hr class="dropdown-divider"></li>
-                                                                    <li><button class="dropdown-item">Delete</button></li>
+                                                                    <li>
+                                                                        <form action="{{route('kelas.delete', $detail->id)}}" method="POST" onclick="return confirm(`INI SANGAT BERBAHAYA\nKamu akan menghapus 'Kelas', artinya data 'Siswa' akan ikut terhapus.\nDalam kata lain menghapus semua data pada 'Kelas' tersebut.`)">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <button type="submit" class="dropdown-item">Delete</button>
+                                                                        </form>
+                                                                        </li>
                                                                 </ul>
                                                             </div>
                                                             </li>
@@ -67,7 +81,7 @@
                                                     @endif
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <form onclick="return confirm(`INI SANGAT BERBAHAYA\nKamu akan menghapus 'Jurusan', artinya data 'Kelas' akan ikut terhapus, begitu pula dengan 'Siswa' pada kelas yang terhapus.\nDalam kata lain menghapus semua data pada 'Jurusan' tersebut.`)" action="{{route('jurusan.delete', $item->id)}}" method="POST">
+                                                    <form action="{{route('jurusan.delete', $item->id)}}" method="POST" onclick="return confirm(`INI SANGAT BERBAHAYA\nKamu akan menghapus 'Jurusan', artinya data 'Kelas' akan ikut terhapus, begitu pula dengan 'Siswa' pada kelas yang terhapus.\nDalam kata lain menghapus semua data pada 'Jurusan' tersebut.`)">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-outline-danger">Hapus</button>

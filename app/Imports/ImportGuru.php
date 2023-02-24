@@ -1,29 +1,35 @@
 <?php
 
 namespace App\Imports;
-use App\Models\GuruImport;
-use App\Models\Guru;
 
-use Maatwebsite\Excel\Concerns\ToModel;
+use App\Models\User\Guru;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 
-class ImportGuru implements ToModel
+class ImportGuru implements ToCollection
 {
     /**
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        return new ImportGuru([
-            'nip' => $row[1],
-            'nama_lengkap' => $row[2],
-            'jenis_kelamin' => $row[3],
-            'kelas_id' => $row[4],
-            'kode_user' => $row[5]
-
-
-
-        ]);
+        foreach ($rows as $key => $row) {
+            if($key == 0){
+                continue;
+            } else {
+                if (empty($row[0]) || empty($row[1]) || empty($row[2])) {
+                    continue;
+                }
+                Guru::updateOrCreate(
+                    ['nip' => $row[1]],
+                    [
+                        'nama_lengkap' => strtoupper($row[0]),
+                        'jenis_kelamin' => $row[2]
+                    ]
+                );
+            }
+        }
     }
 }

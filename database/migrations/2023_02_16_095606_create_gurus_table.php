@@ -15,7 +15,7 @@ class CreateGurusTable extends Migration
     {
         Schema::create('gurus', function (Blueprint $table) {
             $table->id();
-            $table->string('nip', 20)->unique();
+            $table->string('nip', 20)->nullable()->unique();
             $table->string('nama_lengkap');
             $table->string('jenis_kelamin')->default('Laki-laki');
             $table->string('kelas_id')->nullable()->references('id')->on('kelas')->onDelete('cascade');

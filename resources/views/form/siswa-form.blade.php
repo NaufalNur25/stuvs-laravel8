@@ -34,18 +34,25 @@
                 <label for="validationDefaultUsername" class="form-label">Nomor Induk Siswa</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-graduation-cap"></i></span>
-                    <input type="text" class="form-control" aria-label="Text input with checkbox" name="nis"
-                        id="nis" value="{{ @$siswa->nis }}" {{ @$siswa ? 'disabled' : '' }}>
+                    <input type="text" class="form-control @error('nis')
+                    is-invalid
+                @enderror" aria-label="Text input with checkbox" name="nis"
+                        id="nis" value="{{ @$siswa->nis }}" required>
                     <div class="input-group-text">
                         <input class="form-check-input mt-0" name="auto_generate" id="auto_generate" type="checkbox"
                             value="true" aria-label="Checkbox for following text input" data-toggle="tooltip"
                             title="Auto-Generate" {{ @$siswa ? 'disabled' : '' }}>
                     </div>
+                    @error('nis')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
             <div class="col-md-6">
                 <label for="jurusan" class="form-label">Jurusan</label>
-                <select class="form-select" id="jurusan" required {{ @$siswa ? 'disabled' : '' }} onload="kelas()">
+                <select class="form-select" id="jurusan" required onload="kelas()">
                     <option selected disabled>...</option>
                     @foreach ($jurusan as $item)
                         <option value="{{ $item->id }}"

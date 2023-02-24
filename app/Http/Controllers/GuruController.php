@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User\Guru;
-use App\Models\Kelas\Kelas;
-use App\Models\Kelas\Jurusan;
+use App\Imports\ImportGuru;
 use Illuminate\Http\Request;
+use App\Models\Kelas\Jurusan;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GuruController extends Controller
 {
@@ -61,14 +63,16 @@ class GuruController extends Controller
     public function update(Request $request, $id)
     {
         $id = decrypt($id);
-        $validatedData = $request->validate([
-            'nama_lengkap' => ['required', 'max:225'],
-            'jenis_kelamin' => ['required'],
-            'kelas_id' => ['required'],
-        ]);
-        $validatedData['nama_lengkap'] = strtoupper($validatedData['nama_lengkap']);
         $guru = Guru::find($id);
 
+        $validatedData = $request->validate([
+            'nip' => ['required', 'min:12', 'max:20', Rule::unique('gurus')->ignore($guru->id)],
+            'nama_lengkap' => ['required', 'max:225'],
+            'jenis_kelamin' => ['required'],
+            'kelas_id' => $request->has('kelas_id') ? ['required'] : [],
+        ]);
+
+        $validatedData['nama_lengkap'] = strtoupper($validatedData['nama_lengkap']);
         $guru->update($validatedData);
         return redirect()->route('guru')->with('success', 'Berhasil mengubah data Guru dengan NIP: '. $guru->nip);
 
@@ -84,5 +88,10 @@ class GuruController extends Controller
     {
         Guru::destroy($id);
         return redirect()->route('guru')->with('success', 'Berhasil menghapus data Guru.');
+    }
+
+    public function import(Request $request){
+        Excel::import(new ImportGuru, $request->file('file'));
+        return redirect()->route('guru')->with('success', 'Berhasil import semua data guru.');
     }
 }

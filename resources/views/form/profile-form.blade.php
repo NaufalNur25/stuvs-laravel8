@@ -38,8 +38,7 @@
                                     <label for="nama_lengkap">Nama Lengkap</label>
                                     <input type="text" class="form-control my-2" id="nama_lengkap"
                                         placeholder="{{optional($user->siswa)->nama_lengkap ?? optional($user->guru)->nama_lengkap}}"
-                                        value="{{optional($user->siswa)->nama_lengkap ?? optional($user->guru)->nama_lengkap}}"
-                                        {{ !empty(optional($user->siswa)->nama_lengkap) && !empty(optional($user->guru)->nama_lengkap) ? 'disabled' : ''}}>
+                                        value="{{optional($user->siswa)->nama_lengkap ?? optional($user->guru)->nama_lengkap}}" disabled>
                                 </div>
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -56,12 +55,12 @@
                                         placeholder="{{auth()->user()->username}}" value="{{auth()->user()->username}}" disabled>
                                 </div>
                             </div>
-                            @if (!empty(optional($user->siswa)->nama_lengkap) && !empty(optional($user->guru)->nama_lengkap))
+                            @if (!empty(optional($user->siswa)->nama_lengkap) || !empty(optional($user->guru)->nama_lengkap))
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group mb-3">
                                         <label for="jenis_kelamin">Jenis Kelamin</label>
                                         <select class="form-select my-2" aria-label="Default select example" id="jenis_kelamin" {{ !empty(optional($user->siswa)->nama_lengkap) && !empty(optional($user->guru)->nama_lengkap) ? 'disabled' : '' }}>
-                                            <option selected></option>
+                                            <option selected disabled></option>
                                             <option value=""
                                             {{ optional($user->siswa)->jenis_kelamin == 'Laki-laki' ||
                                             optional($user->guru)->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
@@ -75,24 +74,24 @@
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <h6 class="mt-3 mb-2 text-primary">Wali Kelas</h6>
                                 </div>
-                                @endif
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group mb-3">
                                         <label for="jurusan" class="form-label">Jurusan</label>
-                                        <select class="form-select" id="jurusan" required {{ @$siswa ? 'disabled' : '' }} onload="kelas()">
+                                        <select class="form-select" id="jurusan" required {{ @$siswa ? 'disabled' : '' }} onload="kelas()" disabled>
                                             <option selected disabled>...</option>
-                                            @foreach (optional($jurusan) as $item)
+                                            @foreach ($jurusan as $item)
                                                 <option value="{{ $item->id }}"
-                                                    {{ optional($user->siswa)->kelas->jurusan->id ?? optional($user->guru)->kelas->jurusan->id == $item->id ? 'selected' : '' }}>{{ $item->nama_jurusan }}
+                                                    {{ optional($user->siswa)->kelas->jurusan->id === $item->id ? 'selected' : '' }}>{{ $item->nama_jurusan }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group mb-3">
                                         <label for="kelas" class="form-label">Kelas</label>
-                                        <select class="form-select" id="kelas" name="kelas_id" required></select>
+                                        <select class="form-select" id="kelas" name="kelas_id" required disabled></select>
                                     </div>
                                 </div>
                             @endif
@@ -137,7 +136,7 @@
                     success: function(msg) {
                         $('#kelas').html(msg);
 
-                        var id = <?php echo json_encode(@$siswa['kelas_id']); ?>;
+                        var id = <?php echo json_encode(optional($user->siswa)->kelas->id); ?>;
                         $(`option[value="${id}"]`).prop("selected", true);
                         console.log(id);
                     },

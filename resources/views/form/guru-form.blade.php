@@ -21,7 +21,7 @@
                         <label class="input-group-text" for="jenis_kelamin">Pilih</label>
                         <select class="form-select @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin"
                             name="jenis_kelamin" required>
-                            <option selected disabled>...</option>
+                            <option selected>...</option>
                             <option value="Laki-laki"
                                 {{ old('jenis_kelamin', @$guru->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>
                                 Laki-laki
@@ -37,13 +37,20 @@
                     <label for="validationDefaultUsername" class="form-label">Nomor Induk Pegawai</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1"><i class="icofont-ui-check"></i></span>
-                        <input type="text" class="form-control" aria-label="Text input with checkbox" name="nip"
-                            id="nip" value="{{ @$guru->nip }}" {{ @$guru ? 'disabled' : '' }} required>
-                    </div>
+                        <input type="text" class="form-control @error('nip')
+                        is-invalid
+                    @enderror" aria-label="Text input with checkbox" name="nip"
+                            id="nip" value="{{ @$guru->nip }}" required>
+                            @error('nip')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                 </div>
                 <div class="col-md-6">
                     <label for="jurusan" class="form-label">Jurusan</label>
-                    <select class="form-select" id="jurusan" required {{ @$guru ? 'disabled' : '' }} onload="kelas()"
+                    <select class="form-select" id="jurusan" required onload="kelas()"
                         aria-describedby="infoPENTING">
                         <option>...</option>
                         @foreach ($jurusan as $item)
@@ -57,16 +64,10 @@
                     <label for="kelas" class="form-label">Kelas</label>
                     <select class="form-select" id="kelas" name="kelas_id"></select>
                 </div>
-
-                @if (@$guru)
-                <div id="infoPENTING" class="form-text">
-                </div>
-                @else
                 <div id="infoPENTING" class="form-text">
                     <b>PERINGATAN!</b> Input data kelas hanya jika guru tersebut Wali dari suatu Kelas... <br>
                     <u>Bila tidak</u> Biarkan form "Jurusan" dan "Kelas" kosong.
                 </div>
-                @endif
 
 
                 @if (@$guru)
@@ -85,7 +86,7 @@
                     <div class="col-12">
                         <button class="btn btn-success" type="submit" id="submitBtn" disabled>Tambahkan</button>
                         <button type="button" class="btn btn-outline-warning" id="importBtn" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal" disabled>Import Data Guru</button>
+                            data-bs-target="#exampleModal">Import Data Guru</button>
                     </div>
                 @endif
             </form>
@@ -104,10 +105,7 @@
                 <div class="modal-body">
                     <h2><strong>PERINGATAN!</strong></h2>
                     <p>Semakin banyak data yang dimuat artinya semakin lama proses import,
-                        lama waktu import ini tergantung dari seberapa komples data yang dimuat.<br><br>
-                        <i>Untuk menghindari respon yang terlalu lama pada server. </i><u>Disarankan</u> untuk memisahkan
-                        data menjadi perkelas.
-                    </p>
+                        lama waktu import ini tergantung dari seberapa komples data yang dimuat.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -145,10 +143,8 @@
         document.getElementById("validating").addEventListener("change", function() {
             if (this.checked) {
                 document.getElementById("submitBtn").disabled = false;
-                document.getElementById("importBtn").disabled = false;
             } else {
                 document.getElementById("submitBtn").disabled = true;
-                document.getElementById("importBtn").disabled = true;
             }
         });
     </script>
