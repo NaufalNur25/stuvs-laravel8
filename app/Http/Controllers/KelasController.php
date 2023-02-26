@@ -29,7 +29,7 @@ class KelasController extends Controller
         $guruCount = self::$dashboardController->index()->guruCount;
         $siswaCount = self::$dashboardController->index()->siswaCount;
 
-        return view('kelas-table', compact('kelas', 'jurusan',
+        return view('views-table.kelas-table', compact('kelas', 'jurusan',
         'jumlahSiswa', 'jumlahGuru',
     'guruCount', 'siswaCount'));
     }

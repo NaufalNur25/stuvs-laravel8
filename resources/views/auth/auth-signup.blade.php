@@ -12,13 +12,13 @@
                     <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center rounded-lg auth-h100">
                         <div style="max-width: 25rem;">
                             <div class="">
-                                <img src="{{ asset('assets/images/StuvsLogo.png') }}" alt="login-img" style="width: 25rem">
+                                <img src="{{ asset('assets/images/StuvsLogoWithText.png') }}" alt="login-img" style="width: 25rem">
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-6 d-flex justify-content-center align-items-center border-0 rounded-lg auth-h100">
-                        <div class="w-100 p-3 p-md-5 card border-0 bg-dark text-light" style="max-width: 32rem;">
+                        <div class="w-100 p-3 p-md-5 card border-0 bg-dark text-light" style="max-width: 50rem;">
                             <!-- Form -->
                             <form action="{{ route('signup.auth') }}" method="post" class="row g-1 p-3 p-md-4">
                                 @csrf
@@ -28,11 +28,10 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="mb-2">
-                                        <label class="form-label">NIS</label>
-                                        <input name="nis" type="text"
-                                            class="form-control form-control-lg @error('nis') is-invalid @enderror"
-                                            placeholder="2021******" autofocus required value="{{ old('nis') }}">
-                                        @error('nis')
+                                        <label class="form-label">NIP</label>
+                                        <input name="nip" type="text" placeholder="NIP"
+                                            class="form-control form-control-lg @error('nip') is-invalid @enderror" autofocus required value="{{ old('nip') }}">
+                                        @error('nip')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -112,7 +111,7 @@
                                         disabled>SIGN UP</a>
                                 </div>
                                 <div class="col-12 text-center mt-4">
-                                    <span class="text-muted">Already have an account? <a href="{{ route('signin.index') }}"
+                                    <span class="text-muted">Already have an account? <a href="{{ route('signin') }}"
                                             title="Sign in" class="text-secondary">Sign in here</a></span>
                                 </div>
                             </form>

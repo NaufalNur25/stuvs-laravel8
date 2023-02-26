@@ -9,7 +9,7 @@
                     <div
                         class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                         <div class="col-auto d-flex w-sm-100">
-                            <h3>User Management</h3>
+                            <h3 class="fw-bold mb-0">User Management</h3>
                         </div>
                     </div>
                 </div>

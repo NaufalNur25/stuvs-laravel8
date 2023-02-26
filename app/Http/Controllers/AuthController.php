@@ -2,25 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User\Guru;
 use App\Models\User\User;
-use App\Models\User\Siswa;
 use Illuminate\Http\Request;
 use App\Models\Kelas\Jurusan;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 
-class AuthenticateController extends Controller
+class AuthController extends Controller
 {
-    public function login_index()
+    public function signin()
     {
         return view('auth.auth-signin');
-    }
-
-    public function register_index()
-    {
-        return view('auth.auth-signup');
     }
 
     public function authenticate(Request $request)
@@ -33,76 +28,74 @@ class AuthenticateController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            return redirect()->intended(RouteServiceProvider::HOME);
         }
 
         return back()->withErrors([
             'email' => 'password atau email salah.'
         ]);
-
-        // dd($request->email);
-
-        // dd('berhasil login!');
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return redirect('/');
+    }
+
+    public function signup()
+    {
+        return view('auth.auth-signup');
     }
 
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'nis' => ['required', 'min:8', 'max:10'],
+            'nip' => ['required', 'min:10', 'max:20'],
             'username' => ['required', 'string', 'min:5', 'max:25', 'unique:users'],
             'email' => ['required', 'email:dns', 'unique:users'],
             'password' => ['required', 'confirmed', 'min:5', 'max:225']
         ]);
 
-        $kdUser = 'SISWA-'.substr(Hash::make($validatedData['username']), 0, 15);
-        $siswa = DB::table('siswas')->where('nis', $request->nis)->get();
-        // dd(count($siswa) == 0);
-        if(count($siswa) == 0){
+        // Generate unique kode user
+        $kdUser = 'GURU-'.substr(Hash::make($validatedData['username']), 0, 15);
+
+        // Get guru data by nip
+        $guru = Guru::where('nip', $request->nip)->first();
+        if (!$guru) {
             return back()->withErrors([
-                'nis' => 'NIS Siswa tidak ditemukan.'
-            ]);
-        }
-        if(count($siswa->where('kode_siswa')) != 0){
-            return back()->withErrors([
-                'nis' => 'Siswa sudah memiliki akun.'
+                'nip' => 'NIP guru tidak ditemukan.'
             ]);
         }
 
+        // Check if guru already has an account
+        if ($guru->kode_user) {
+            return back()->withErrors([
+                'nip' => 'Guru sudah memiliki akun.'
+            ]);
+        }
 
-        // $validatedData['password'] = Hash::make($validatedData['password']);
-        // array_push($validatedData, $item);
-        // $validatedData += array('kode_siswa' => $kdSiswa);
-        // dd($validatedData);
-
+        // Hash password and add kode user to the validated data
         $validatedData['password'] = Hash::make($validatedData['password']);
-        $validatedData += array('kode_user' => $kdUser);
+        $validatedData += ['kode_user' => $kdUser];
+
+        // Create user and update guru data
         User::create($validatedData);
+        $guru->update(['kode_user' => $kdUser]);
 
-        Siswa::where('nis', $siswa[0]->nis)->first()
-        ->update([
-            'kode_user' => $kdUser
-        ]);
-
-        return redirect('/login')->with('success', 'Regisration successfull! Please login');
-        // dd('Register Berhasil');
+        // Authenticate user and redirect to intended URL
+        Auth::attempt($request->only('email', 'password'));
+        $request->session()->regenerate();
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
+
 
     public function show(){
         $currentUser = auth()->user();
         $result = User::whereNotIn('id', [$currentUser->id])->get();
 
-        return view('user-table', [
+        return view('views-table.user-table', [
             'user' => $result
         ]);
     }

@@ -26,7 +26,7 @@ class SiswaController extends Controller
         $siswa = $siswa->get();
         $kelas = $siswa->isNotEmpty() ? $siswa->first()->kelas->nama_kelas : '';
 
-        return view('siswa-table', compact('siswa', 'kelas'));
+        return view('views-table.siswa-table', compact('siswa', 'kelas'));
     }
 
     public function create(){

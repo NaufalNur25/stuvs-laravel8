@@ -14,7 +14,7 @@ class GuruController extends Controller
     public function index()
     {
         $result = Guru::with(['kelas'])->get();
-        return view('guru-table', [
+        return view('views-table.guru-table', [
             'guru' => $result
         ]);
     }
@@ -84,7 +84,7 @@ class GuruController extends Controller
     }
 
 
-    public function destroy($id)
+    public function delete($id)
     {
         Guru::destroy($id);
         return redirect()->route('guru')->with('success', 'Berhasil menghapus data Guru.');

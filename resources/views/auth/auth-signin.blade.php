@@ -56,7 +56,7 @@
                                                 <a class="text-secondary" href="auth-password-reset.html">Forgot Password?</a>
                                             </span>
                                         </div>
-                                        <input name="password" type="password" class="form-control form-control-lg" id="password" placeholder="***************" required>
+                                        <input name="password" type="password" class="form-control form-control-lg" id="password" placeholder="Password" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -71,7 +71,7 @@
                                     <button type="submit" class="btn btn-lg btn-block btn-light lift text-uppercase" atl="signin">SIGN IN</button>
                                 </div>
                                 <div class="col-12 text-center mt-4">
-                                    <span class="text-muted">Don't have an account yet? <a href="{{route('signup.index')}}" class="text-secondary">Sign up here</a></span>
+                                    <span class="text-muted">Don't have an account yet? <a href="{{route('signup')}}" class="text-secondary">Sign up here</a></span>
                                 </div>
                             </form>
                             <!-- End Form -->

@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Laporan;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User\User;
+use App\Models\User\Siswa;
+use App\Models\Laporan\KategoriLaporan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Laporan extends Model
 {
@@ -14,8 +17,11 @@ class Laporan extends Model
      * @var array
      */
     protected $fillable = [
+        'deskripsi_laporan',
+        'tanggal_waktu',
+        'user_id',
         'nis',
-        'deskripsi_laporan_id',
+        'kategori_laporan_id',
     ];
 
     /**
@@ -34,9 +40,9 @@ class Laporan extends Model
         return $this->belongsTo(Siswa::class, 'nis', 'nis');
     }
 
-    public function deskripsiLaporan()
+    public function kategoriLaporan()
     {
-        return $this->belongsTo(DeskripsiLaporan::class, 'deskripsi_laporan_id');
+        return $this->belongsTo(KategoriLaporan::class);
     }
 
     public function user()

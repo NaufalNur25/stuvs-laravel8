@@ -3,8 +3,9 @@
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\AuthenticateController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,21 +23,20 @@ Route::get('/tes', function () {
     return view('report');
 });
 
-Route::get('/laporan', function () {
-    return view('laporan');
-});
+
 Route::get('/detail-laporan', function () {
     return view('detail-laporan');
 });
 
 
 
-Route::get('/login', [AuthenticateController::class, 'login_index'])->name('signin.index');
-Route::post('/login', [AuthenticateController::class, 'authenticate'])->name('signin.auth');
-Route::post('/logout', [AuthenticateController::class, 'logout'])->name('logout');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [AuthController::class, 'signin'])->name('signin');
+    Route::post('/login', [AuthController::class, 'authenticate'])->name('signin.auth');
 
-Route::get('/register', [AuthenticateController::class, 'register_index'])->name('signup.index');
-Route::post('/register', [AuthenticateController::class, 'register'])->name('signup.auth');
+    Route::get('/register', [AuthController::class, 'signup'])->name('signup');
+    Route::post('/register', [AuthController::class, 'register'])->name('signup.auth');
+});
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [Controller::class, 'index'])->name('index');
@@ -71,15 +71,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [GuruController::class, 'index'])->name('guru');
         Route::post('/create-new/guru/store', [GuruController::class, 'store'])->name('guru.store');
         Route::PUT('/update/{guru:id}', [GuruController::class, 'update'])->name('guru.update');
-        Route::delete('/delete/{guru:id}', [GuruController::class, 'destroy'])->name('guru.delete');
+        Route::delete('/delete/{guru:id}', [GuruController::class, 'delete'])->name('guru.delete');
 
         Route::post('/file-import/import', [GuruController::class, 'import'])->name('import.guru');
     });
 
     Route::group(['prefix' => 'user'], function () {
-        Route::get('/', [AuthenticateController::class, 'show'])->name('user');
-        Route::PUT('/update/{user:id}', [AuthenticateController::class, 'update'])->name('user.update');
-        Route::delete('/delete/{user:id}', [AuthenticateController::class, 'delete'])->name('user.delete');
+        Route::get('/', [AuthController::class, 'show'])->name('user');
+        Route::PUT('/update/{user:id}', [AuthController::class, 'update'])->name('user.update');
+        Route::delete('/delete/{user:id}', [AuthController::class, 'delete'])->name('user.delete');
     });
 
     Route::group(['prefix' => 'form'], function () {
@@ -94,10 +94,23 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/create-new/jurusan', [KelasController::class, 'jurusan_create'])->name('jurusan.create');
         Route::get('/create-new/kelas', [KelasController::class, 'kelas_create'])->name('kelas.create');
 
+        Route::get('/create-new/kategori-laporan', [LaporanController::class, 'kategoriLaporan_create'])->name('kategoriLaporan.create');
+        Route::get('/edit/kategori-laporan/{kategorilaporan:id}', [LaporanController::class, 'kategoriLaporan_edit'])->name('kategoriLaporan.edit');
+
 
         Route::get('/edit/profile/{auth:id}', [AuthenticateController::class, 'edit'])->name('profile.edit');
     });
     Route::post('/getjurusanid', [Controller::class, 'get_jurusan'])->name('ajax.getJurusanID');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::group(['prefix' => 'laporan'], function () {
+    Route::get('/kategori', [LaporanController::class, 'kategoriLaporanIndex'])->name('kategoriLaporan.index');
+    Route::post('/create-new/kategori-laporan/store', [LaporanController::class, 'kategoriLaporanStore'])->name('kategoriLaporan.store');
+    Route::PUT('/update/{kategorilaporan:id}', [LaporanController::class, 'kategoriLaporanUpdate'])->name('kategoriLaporan.update');
+    Route::delete('/delete/{kategorilaporan:id}', [LaporanController::class, 'kategoriLaporanDelete'])->name('kategoriLaporan.delete');
+
+    Route::get('/', [LaporanController::class, 'laporanIndex'])->name('laporan.index');
 });
 
 Route::get('/profile', function () {

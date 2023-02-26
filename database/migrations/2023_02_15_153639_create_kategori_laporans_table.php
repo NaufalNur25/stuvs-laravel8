@@ -15,7 +15,8 @@ class CreateKategoriLaporansTable extends Migration
     {
         Schema::create('kategori_laporans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_kategori');
+            $table->string('nama_pelanggaran')->unique();
+            $table->enum('jenis_pelanggaran', ['Berat', 'Sedang', 'Ringan']);
             $table->text('deskripsi_pelanggaran');
             $table->timestamps();
         });

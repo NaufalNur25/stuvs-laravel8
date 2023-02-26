@@ -9,8 +9,6 @@ use App\Models\Kelas\Jurusan;
 
 class JurusanController extends Controller
 {
-
-
     public function jurusan_store(Request $request)
     {
         $item = $request->validate([

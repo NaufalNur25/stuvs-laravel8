@@ -66,7 +66,7 @@
                     <li><a class="m-link <?php if (Route::is('index')) { echo 'active';} ?>" href="{{ route('index') }}"><i class="icofont-home fs-5"></i><span>Dashboard</span></a></li>
 
                     <li class="collapsed">
-                        <a class="m-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user') || (Route::is('guru')) || (Route::is('kelas'))) { echo 'active'; } ?>" href="{{ route('siswa') }}" data-bs-toggle="collapse" data-bs-target="#emp-Components"><i
+                        <a class="m-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user') || (Route::is('guru')) || (Route::is('kelas'))) { echo 'active'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#emp-Components"><i
                                 class="icofont-users-alt-5"></i> <span>Manage</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                         <!-- Menu: Sub menu ul -->
                         <ul class="sub-menu collapse <?php if (Route::is('guru') || Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user') || Route::is('kelas')) { echo 'show'; } ?>" id="emp-Components">
@@ -78,27 +78,14 @@
                     </li>
 
                     <li class="collapsed">
-                        <a class="m-link" href="#" data-bs-toggle="collapse" data-bs-target="#client-Components"><i
+                        <a class="m-link <?php if (Route::is('kategoriLaporan.index') || (Route::is('laporan.index'))) { echo 'active'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#client-Components"><i
                                 class="icofont-dart"></i> <span>Laporan</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                         <!-- Menu: Sub menu ul -->
-                        <ul class="sub-menu collapse" id="client-Components">
-                            <li><a class="ms-link" href="#"><span>User</span></a></li>
-                        </ul>
-                    </li>
+                        <ul class="sub-menu collapse <?php if (Route::is('kategoriLaporan.index')||(Route::is('laporan.index'))) { echo 'show'; } ?>" id="client-Components">
+                            <li><a class="ms-link <?php if (Route::is('laporan.index')) { echo 'active'; } ?>" href="{{ route('laporan.index') }}"><span>Laporan</span></a></li>
+                            <li><a class="ms-link <?php if (Route::is('kategoriLaporan.index')) { echo 'active'; } ?>" href="{{ route('kategoriLaporan.index') }}"><span>Kategori</span></a></li>
 
-                    <li class="collapsed">
-                        <a class="m-link" href="#"><i class="icofont-contrast"></i> <span>Preference</span><span
-                                class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
-                        <!-- Menu: Sub menu ul -->
-                        <ul class="sub-menu collapse" id="app-Components">
-                            <li>
-                                <a class="ms-link" href="chat.html"><span>Chat App</span></a>
-                            </li>
                         </ul>
-                    </li>
-                    <li>
-                        <a class="m-link" href="ui-elements/ui-alerts.html"><i class="icofont-paint"></i><span>UI
-                                Components</span></a>
                     </li>
                 </ul>
 
@@ -150,7 +137,7 @@
                 <div class="col-md-12">
                     <div class="card mb-3">
                         <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                            <h6 class="mb-0 fw-bold "></h6>
+                            @yield('extention')
                         </div>
                         <div class="card-body">
                             @yield('content')

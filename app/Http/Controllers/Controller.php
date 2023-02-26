@@ -7,6 +7,7 @@ use App\Models\User\User;
 use App\Models\User\Siswa;
 use App\Models\Kelas\Kelas;
 use Illuminate\Http\Request;
+use App\Models\Laporan\Laporan;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -23,13 +24,14 @@ class Controller extends BaseController
         $guruCount = Guru::count();
         $akunCount = User::count();
         $kelasCount = Kelas::count();
+        $laporanCount = Laporan::count();
         $jumlahSiswa = Siswa::groupBy('jenis_kelamin')->selectRaw('jenis_kelamin, count(*) as jumlah')->get();
         $jumlahGuru = Guru::groupBy('jenis_kelamin')->selectRaw('jenis_kelamin, count(*) as jumlah')->get();
 
         // dd($jumlahSiswa->where('jenis_kelamin', 'Perempuan')->first());
         return view('dashboard', compact(
             'siswaCount', 'guruCount', 'akunCount', 'kelasCount',
-            'jumlahSiswa', 'jumlahGuru'
+            'jumlahSiswa', 'jumlahGuru', 'laporanCount'
         ));
     }
 

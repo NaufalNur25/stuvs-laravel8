@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Laporan;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class KategoriLaporan extends Model
 {
@@ -13,7 +13,8 @@ class KategoriLaporan extends Model
      * @var array
      */
     protected $fillable = [
-        'nama_kategori',
+        'nama_pelanggaran',
+        'jenis_pelanggaran',
         'deskripsi_pelanggaran',
     ];
 
@@ -28,8 +29,8 @@ class KategoriLaporan extends Model
 
     use HasFactory;
 
-    public function deskripsiLaporans()
+    public function laporan()
     {
-        return $this->hasMany(DeskripsiLaporan::class, 'kategori_pelanggaran_id');
+        return $this->hasMany(Laporan::class);
     }
 }

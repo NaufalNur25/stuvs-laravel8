@@ -7,7 +7,7 @@
         <div class="row align-items-center g-3 mb-3">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 border-bottom">
-                    <h3 class="fw-bold me-auto">Kelas</h3>
+                    <h3 class="fw-bold me-auto">Kelas Management</h3>
                     <button type="button" class="btn btn-outline-warning me-2" id="importBtn" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">Import Kelas dan Siswa</button>
                     <a href="{{ route('jurusan.create') }}" class="btn btn-dark btn-set-task w-sm-100"><i
