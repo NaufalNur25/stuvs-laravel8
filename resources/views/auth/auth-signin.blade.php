@@ -27,7 +27,7 @@
                                     <span>Free access to our dashboard.</span>
                                 </div>
                                 <div class="col-12 text-center mb-4">
-                                    <a class="btn btn-lg btn-outline-secondary btn-block" href="#">
+                                    <a class="btn btn-lg btn-outline-secondary btn-block" href="{{url('/auth/google')}}">
                                         <span class="d-flex justify-content-center align-items-center">
                                             <img class="avatar xs me-2" src="{{asset('assets/images/google.svg')}}" alt="Image Description">
                                             Sign in with Google

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->enum('role', ['Administrator', 'Petugas'])->default('Petugas');
             $table->rememberToken();
+            $table->timestamp('last_seen')->nullable();
             $table->timestamps();
         });
     }
