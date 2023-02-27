@@ -150,19 +150,6 @@
     </script>
 
     <script>
-        // const jurusanSelect = document.getElementById("jurusan");
-        // const kelasSelect = document.getElementById("kelas");
-
-        // jurusanSelect.addEventListener("change", () => {
-        //     if (jurusanSelect.value !== "...") {
-        //         kelasSelect.disabled = false;
-        //     } else {
-        //         kelasSelect.disabled = true;
-        //     }
-        // });
-    </script>
-
-    <script>
         $(function() {
             $.ajaxSetup({
                 headers: {

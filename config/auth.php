@@ -65,6 +65,10 @@ return [
             'model' => App\Models\User\User::class,
         ],
 
+        'features' => [
+            'email_verification' => true,
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

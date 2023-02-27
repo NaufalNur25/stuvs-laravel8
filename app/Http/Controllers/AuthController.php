@@ -20,12 +20,10 @@ class AuthController extends Controller
 
     public function authenticate(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required'],
-            'password' => ['required']
-        ]);
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
             return redirect()->intended(RouteServiceProvider::HOME);
@@ -85,6 +83,7 @@ class AuthController extends Controller
         $guru->update(['kode_user' => $kdUser]);
 
         // Authenticate user and redirect to intended URL
+
         Auth::attempt($request->only('email', 'password'));
         $request->session()->regenerate();
         return redirect()->intended(RouteServiceProvider::HOME);

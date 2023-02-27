@@ -17,7 +17,6 @@
                 </div>
                 <div class="loadingCenter">
                     <button class="loadingCenterBtn btn btn-success" type="submit" id="submitBtn">Import Data</button>
-
                 </div>
             </form>
         </div>

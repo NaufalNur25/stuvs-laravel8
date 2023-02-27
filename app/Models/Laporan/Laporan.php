@@ -35,11 +35,6 @@ class Laporan extends Model
 
     use HasFactory;
 
-    public function siswa()
-    {
-        return $this->belongsTo(Siswa::class, 'nis', 'nis');
-    }
-
     public function kategoriLaporan()
     {
         return $this->belongsTo(KategoriLaporan::class);
@@ -50,4 +45,8 @@ class Laporan extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'nis', 'nis');
+    }
 }

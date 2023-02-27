@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Kelas\Kelas;
 use App\Models\User\User;
+use App\Models\Laporan\Laporan;
 
 class Siswa extends Model
 {
@@ -46,7 +47,7 @@ class Siswa extends Model
     }
 
 
-    public function laporans()
+    public function Laporan()
     {
         return $this->hasMany(Laporan::class, 'nis', 'nis');
     }

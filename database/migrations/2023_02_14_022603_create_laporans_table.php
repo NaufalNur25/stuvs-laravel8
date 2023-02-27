@@ -17,7 +17,7 @@ class CreateLaporansTable extends Migration
             $table->id();
             $table->text('deskripsi_laporan')->nullable();
             $table->datetime('tanggal_waktu');
-            $table->string('user_id')->references('id')->on('user');
+            $table->string('user_id')->references('id')->on('user')->onDelete('cascade');
             $table->string('nis', 10)->references('nis')->on('siswas')->onDelete('cascade');
             $table->string('kategori_laporan_id')->references('id')->on('kategori_laporans')->onDelete('cascade');
             $table->timestamps();

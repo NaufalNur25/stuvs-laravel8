@@ -92,7 +92,7 @@ class SiswaController extends Controller
 
         $validatedData['nama_lengkap'] = strtoupper($validatedData['nama_lengkap']);
         $siswa->update($validatedData);
-        return redirect()->route('siswa')->with('success', 'Berhasil mengubah data siswa dengan NIS: '. $siswa->nis);
+        return redirect()->route('siswa', $siswa->kelas->nama_kelas)->with('success', 'Berhasil mengubah data siswa dengan NIS: '. $siswa->nis);
     }
 
     public function delete($id){

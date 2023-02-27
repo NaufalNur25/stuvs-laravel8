@@ -58,13 +58,14 @@
                                 fill-opacity="1" fill-rule="nonzero" />
                         </svg>
                     </span>
-                    <span class="logo-text" >STUVS</span>
+                    <span class="logo-text">STUVS</span>
                 </a>
                 <!-- Menu: main ul -->
 
                 <ul class="menu-list flex-grow-1 mt-3">
                     <li><a class="m-link <?php if (Route::is('index')) { echo 'active';} ?>" href="{{ route('index') }}"><i class="icofont-home fs-5"></i><span>Dashboard</span></a></li>
 
+                    @can('administrator')
                     <li class="collapsed">
                         <a class="m-link <?php if (Route::is('siswa') || Route::is('siswa.create') || Route::is('siswa.edit') || Route::is('jurusan') || Route::is('user') || (Route::is('guru')) || (Route::is('kelas'))) { echo 'active'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#emp-Components"><i
                                 class="icofont-users-alt-5"></i> <span>Manage</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
@@ -76,17 +77,21 @@
                             <li><a class="ms-link <?php if (Route::is('kelas')) { echo 'active'; } ?>" href="{{route('kelas')}}"> <span>Kelas</span></a></li>
                         </ul>
                     </li>
-
-                    <li class="collapsed">
-                        <a class="m-link <?php if (Route::is('kategoriLaporan.index') || (Route::is('laporan.index'))) { echo 'active'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#client-Components"><i
-                                class="icofont-dart"></i> <span>Laporan</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
-                        <!-- Menu: Sub menu ul -->
-                        <ul class="sub-menu collapse <?php if (Route::is('kategoriLaporan.index')||(Route::is('laporan.index'))) { echo 'show'; } ?>" id="client-Components">
-                            <li><a class="ms-link <?php if (Route::is('laporan.index')) { echo 'active'; } ?>" href="{{ route('laporan.index') }}"><span>Laporan</span></a></li>
-                            <li><a class="ms-link <?php if (Route::is('kategoriLaporan.index')) { echo 'active'; } ?>" href="{{ route('kategoriLaporan.index') }}"><span>Kategori</span></a></li>
-
-                        </ul>
-                    </li>
+                    @endcan
+                    @if (@auth()->user()->guru->kelas_id !== null || auth()->user()->role == 'Administrator')
+                        <li class="collapsed">
+                            <a class="m-link <?php if (Route::is('kategoriLaporan.index') || (Route::is('laporan.index')) || (Route::is('laporan.create'))) { echo 'active'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#client-Components"><i
+                                    class="icofont-dart"></i> <span>Laporan</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                            <!-- Menu: Sub menu ul -->
+                            <ul class="sub-menu collapse <?php if (Route::is('kategoriLaporan.index')||(Route::is('laporan.index'))||(Route::is('laporan.create'))) { echo 'show'; } ?>" id="client-Components">
+                                <li><a class="ms-link <?php if (Route::is('laporan.create')) { echo 'active'; } ?>" href="{{ route('laporan.create') }}"><span>Laporkan</span></a></li>
+                                <li><a class="ms-link <?php if (Route::is('laporan.index')) { echo 'active'; } ?>" href="{{ route('laporan.index') }}"><span>Table Laporan</span></a></li>
+                                @can('administrator')
+                                <li><a class="ms-link <?php if (Route::is('kategoriLaporan.index')) { echo 'active'; } ?>" href="{{ route('kategoriLaporan.index') }}"><span>Kategori</span></a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
 
                 <!-- Theme: Switch Theme -->

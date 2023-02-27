@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\User\Siswa;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -48,13 +48,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function laporans()
+    {
+        return $this->hasMany(Laporan::class);
+    }
+
     public function siswa()
     {
         return $this->belongsTo(Siswa::class, 'kode_user', 'kode_user');
     }
 
-    public function laporans()
+    public function guru()
     {
-        return $this->hasMany(Laporan::class);
+        return $this->hasOne(Guru::class, 'kode_user', 'kode_user');
     }
 }

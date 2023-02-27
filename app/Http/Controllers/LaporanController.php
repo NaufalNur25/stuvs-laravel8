@@ -2,79 +2,183 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User\Siswa;
+use App\Models\Kelas\Kelas;
 use Illuminate\Http\Request;
+use App\Models\Kelas\Jurusan;
 use Illuminate\Support\Carbon;
 use App\Models\Laporan\Laporan;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Laporan\KategoriLaporan;
 
 
 class LaporanController extends Controller
 {
     public function laporanIndex(Request $request){
-        $search = $request->input('date');
-        if($search){
-            session()->put('date', $search);
-        } else {
-            $now = now()->format('Y-m-d');
-            session()->put('date', $now);
-            $search = $now;
-        }
-
-        $laporan = Laporan::with('kategoriLaporan', 'siswa', 'user')
-            ->whereDate('tanggal_waktu', $search)
-            ->get();
-
-        $kategori = KategoriLaporan::all();
-
-        foreach ($kategori as $kat) {
-            switch ($kat->jenis_pelanggaran) {
-                case 'Ringan':
-                    $colors[$kat->id] = 'success';
-                    break;
-
-                case 'Berat':
-                    $colors[$kat->id] = 'danger';
-                    break;
-
-                case 'Sedang':
-                    $colors[$kat->id] = 'warning';
-                    break;
-
-                default:
-                    $colors[$kat->id] = '';
-                    break;
+        if(Gate::allows('administrator')){
+            $search = $request->input('date');
+            if($search){
+                session()->put('date', $search);
+            } else {
+                $now = now()->format('Y-m-d');
+                session()->put('date', $now);
+                $search = $now;
             }
+
+            $laporan = Laporan::with('kategoriLaporan', 'siswa', 'user')
+                ->whereDate('tanggal_waktu', $search)
+                ->get();
+
+
+            $kategori = KategoriLaporan::all();
+
+            foreach ($kategori as $kat) {
+                switch ($kat->jenis_pelanggaran) {
+                    case 'Ringan':
+                        $colors[$kat->id] = 'success';
+                        break;
+
+                    case 'Berat':
+                        $colors[$kat->id] = 'danger';
+                        break;
+
+                    case 'Sedang':
+                        $colors[$kat->id] = 'warning';
+                        break;
+
+                    default:
+                        $colors[$kat->id] = '';
+                        break;
+                }
+            }
+
+            $tahun = date('Y', strtotime($search));
+            $bulan = date('m', strtotime($search));
+
+            $jumlah_hari = date('t', mktime(0, 0, 0, $bulan, 1, $tahun)); // mendapatkan jumlah hari dalam bulan tersebut
+            $day = array(); // inisialisasi array tanggal
+
+            for ($i = 1; $i <= $jumlah_hari; $i++) {
+                $day[] = sprintf("%02d", $i); // memasukkan tanggal ke dalam array dengan format "DD"
+
+            }
+
+            $laporan_per_hari = array_fill(0, $jumlah_hari, 0); // inisialisasi array laporan per hari dengan nilai awal kosong
+
+            $searchDate = \Carbon\Carbon::createFromFormat('Y-m-d', $search);
+            $laporans = Laporan::with('kategoriLaporan', 'siswa', 'user')
+                ->whereMonth('tanggal_waktu', $searchDate->format('m'))
+                ->get()
+                ->groupBy(function ($laporan) {
+                    return $laporan->created_at->format('d');
+                });
+
+            $laporan_per_hari = [];
+
+            for ($i = 0; $i <= $jumlah_hari; $i++) {
+                $laporan_per_hari[$i] = isset($laporans[$i]) ? $laporans[$i]->count() : 0;
+            }
+
+            return view('views-table.laporan-table', [
+                    'laporan' => $laporan,
+                    'color' => $colors,
+
+                    'day' => $day,
+                    'laporan_day' => $laporan_per_hari,
+                    'tahun' => $tahun,
+                    'bulan' => date('F', strtotime($search)),
+            ]);
         }
 
-        $tahun = date('Y', strtotime($search));
-        $bulan = date('m', strtotime($search));
+        if(Gate::allows('petugas')){
+            if (auth()->user()->guru->kelas_id === null) {
+                return view('errors.404');
+            }
+            foreach (KategoriLaporan::all() as $kat) {
+                switch ($kat->jenis_pelanggaran) {
+                    case 'Ringan':
+                        $colors[$kat->id] = 'success';
+                        break;
 
-        $jumlah_hari = date('t', mktime(0, 0, 0, $bulan, 1, $tahun)); // mendapatkan jumlah hari dalam bulan tersebut
-        $day = array(); // inisialisasi array tanggal
+                    case 'Berat':
+                        $colors[$kat->id] = 'danger';
+                        break;
 
-        for ($i = 1; $i <= $jumlah_hari; $i++) {
-            $day[] = sprintf("%02d", $i); // memasukkan tanggal ke dalam array dengan format "DD"
+                    case 'Sedang':
+                        $colors[$kat->id] = 'warning';
+                        break;
+
+                    default:
+                        $colors[$kat->id] = '';
+                        break;
+                }
+            }
+
+            $search = $request->input('date');
+            if($search){
+                session()->put('date', $search);
+            } else {
+                $now = now()->format('Y-m-d');
+                session()->put('date', $now);
+                $search = $now;
+            }
+
+            $laporan = Laporan::with('kategoriLaporan', 'siswa', 'user')
+            ->whereDate('tanggal_waktu', $search);
+            $kelas = auth()->user()->guru->kelas_id;
+            if ($kelas) {
+                $laporan->whereHas('siswa', function ($query) use ($kelas) {
+                    $query->where('kelas_id', $kelas);
+                });
+            }
+            $laporan = $laporan->get();
+
+
+            $tahun = date('Y', strtotime($search));
+            $bulan = date('m', strtotime($search));
+            $jumlah_hari = date('t', mktime(0, 0, 0, $bulan, 1, $tahun)); // mendapatkan jumlah hari dalam bulan tersebut
+            $day = array(); // inisialisasi array tanggal
+            for ($i = 1; $i <= $jumlah_hari; $i++) {
+                $day[] = sprintf("%02d", $i); // memasukkan tanggal ke dalam array dengan format "DD"
+
+            }
+
+            $laporan_per_hari = array_fill(0, $jumlah_hari, 0); // inisialisasi array laporan per hari dengan nilai awal kosong
+            $searchDate = \Carbon\Carbon::createFromFormat('Y-m-d', $search);
+            $laporansQuery = Laporan::with('kategoriLaporan', 'siswa', 'user')
+                ->whereMonth('tanggal_waktu', $searchDate->format('m'));
+            $kelas = auth()->user()->guru->kelas_id;
+            if ($kelas) {
+                $laporansQuery->whereHas('siswa', function ($query) use ($kelas) {
+                    $query->where('kelas_id', $kelas);
+                });
+            }
+            $laporans = $laporansQuery->get();
+            $laporansGrouped = $laporans->groupBy(function ($laporan) {
+                return $laporan->created_at->format('d');
+            });
+
+            $laporan_per_hari = [];
+            for ($i = 0; $i <= $jumlah_hari; $i++) {
+                $laporan_per_hari[$i] = isset($laporansGrouped[$i]) ? $laporansGrouped[$i]->count() : 0;
+            }
+
+            return view('views-table.laporan-table', [
+                    'laporan' => $laporan,
+                    'color' => $colors,
+                    'nama_kelas' => Kelas::where('id', ($laporan->first())
+                    ->siswa->kelas_id)->first()
+                    ->nama_kelas,
+
+                    'day' => $day,
+                    'laporan_day' => $laporan_per_hari,
+                    'tahun' => $tahun,
+                    'bulan' => date('F', strtotime($search)),
+            ]);
         }
 
-        $laporan_per_hari = array_fill(0, $jumlah_hari, 0); // inisialisasi array laporan per hari dengan nilai awal kosong
-
-        foreach ($laporan as $lap) {
-            $lap_tanggal = date('d', strtotime($lap->tanggal_waktu));
-            $laporan_per_hari[$lap_tanggal] = $lap->count(); // memasukkan laporan ke dalam array laporan per hari sesuai tanggal
-        }
-
-        // dd($laporan_per_hari);
-        // dd($day);
-        return view('views-table.laporan-table', [
-            'laporan' => $laporan,
-            'color' => $colors,
-
-            'day' => $day,
-            'laporan_day' => $laporan_per_hari,
-            'tahun' => $tahun,
-            'bulan' => date('F', strtotime($search)),
-        ]);
     }
 
     public function kategoriLaporanIndex(){
@@ -107,8 +211,30 @@ class LaporanController extends Controller
         ]);
     }
 
+    public function laporan_create(){
+        $jurusan = Jurusan::all();
+        $kategoriLaporan = KategoriLaporan::all();
+        return view('form.laporan-form', compact('jurusan', 'kategoriLaporan'));
+    }
+
+    public function laporanStore(Request $request){
+        $validateData = $request->validate([
+            'deskripsi_laporan' => [],
+            'nis' => ['required'],
+        ]);
+
+        Laporan::create([
+            'deskripsi_laporan' => $request['deskripsi_laporan'],
+            'tanggal_waktu' => now()->format('y-m-d h:m:s'),
+            'user_id' => auth()->user()->id,
+            'nis' => $request['nis'],
+            'kategori_laporan_id' => $request['kategori_id'],
+        ]);
+
+    }
+
     public function kategoriLaporan_create(){
-        return view('form.kategoriLaporan-form',[
+        return view('form.kategoriLaporan-form', [
             'kategori_laporan' => KategoriLaporan::all(),
         ]);
     }
