@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User\Guru;
 use App\Models\User\Siswa;
 use App\Models\Kelas\Kelas;
 use Illuminate\Http\Request;
@@ -165,12 +166,12 @@ class LaporanController extends Controller
                 $laporan_per_hari[$i] = isset($laporansGrouped[$i]) ? $laporansGrouped[$i]->count() : 0;
             }
 
+            // $kelas = Kelas::where('id', (Guru::find('kode_user', auth()->user())->kode_user))->kelas_id;
+
             return view('views-table.laporan-table', [
                     'laporan' => $laporan,
                     'color' => $colors,
-                    'nama_kelas' => Kelas::where('id', ($laporan->first())
-                    ->siswa->kelas_id)->first()
-                    ->nama_kelas,
+                    // 'nama_kelas' => $kelas->nama_kelas,
 
                     'day' => $day,
                     'laporan_day' => $laporan_per_hari,
@@ -178,7 +179,36 @@ class LaporanController extends Controller
                     'bulan' => date('F', strtotime($search)),
             ]);
         }
+    }
 
+    public function laporan_create(){
+        $jurusan = Jurusan::all();
+        $kategoriLaporan = KategoriLaporan::all();
+        return view('form.laporan-form', compact('jurusan', 'kategoriLaporan'));
+    }
+
+    public function laporanStore(Request $request){
+        $validateData = $request->validate([
+            'deskripsi_laporan' => [],
+            'nis' => ['required'],
+        ]);
+
+        Laporan::create([
+            'deskripsi_laporan' => $request['deskripsi_laporan'],
+            'tanggal_waktu' => now()->format('y-m-d h:m:s'),
+            'user_id' => auth()->user()->id,
+            'nis' => $request['nis'],
+            'kategori_laporan_id' => $request['kategori_id'],
+        ]);
+
+    }
+
+    public function laporanDetail($nis){
+        $nis = decrypt($nis);
+        $laporan = Laporan::where('nis', $nis)->get();
+        $siswa = Siswa::where('nis', $nis)->first();
+        $guru = Guru::where('kelas_id', $siswa->kelas->id)->first();
+        return view('laporan-detail', compact('laporan', 'siswa', 'guru'));
     }
 
     public function kategoriLaporanIndex(){
@@ -211,28 +241,6 @@ class LaporanController extends Controller
         ]);
     }
 
-    public function laporan_create(){
-        $jurusan = Jurusan::all();
-        $kategoriLaporan = KategoriLaporan::all();
-        return view('form.laporan-form', compact('jurusan', 'kategoriLaporan'));
-    }
-
-    public function laporanStore(Request $request){
-        $validateData = $request->validate([
-            'deskripsi_laporan' => [],
-            'nis' => ['required'],
-        ]);
-
-        Laporan::create([
-            'deskripsi_laporan' => $request['deskripsi_laporan'],
-            'tanggal_waktu' => now()->format('y-m-d h:m:s'),
-            'user_id' => auth()->user()->id,
-            'nis' => $request['nis'],
-            'kategori_laporan_id' => $request['kategori_id'],
-        ]);
-
-    }
-
     public function kategoriLaporan_create(){
         return view('form.kategoriLaporan-form', [
             'kategori_laporan' => KategoriLaporan::all(),
@@ -247,7 +255,7 @@ class LaporanController extends Controller
         ]);
 
         KategoriLaporan::create($validateData);
-        return redirect()->route('laporan')->with('success', 'Berhasil menambahkan kategori baru dengan "Jenis Pelanggaran": '. $validateData['jenis_pelanggaran']);
+        return redirect()->route('laporan.index')->with('success', 'Berhasil menambahkan kategori baru dengan "Jenis Pelanggaran": '. $validateData['jenis_pelanggaran']);
     }
 
     public function kategoriLaporan_edit($id){

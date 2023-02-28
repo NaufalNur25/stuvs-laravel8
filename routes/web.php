@@ -29,13 +29,13 @@ Route::get('/detail-laporan', function () {
     return view('detail-laporan');
 });
 
-Route::middleware(['guest'])->group(function () {
-    Route::get('/login', [AuthController::class, 'signin'])->name('signin');
-    Route::post('/login', [AuthController::class, 'authenticate'])->name('signin.auth');
+// Route::middleware(['guest'])->group(function () {
+//     Route::get('/login', [AuthController::class, 'signin'])->name('signin');
+//     Route::post('/login', [AuthController::class, 'authenticate'])->name('signin.auth');
 
-    Route::get('/register', [AuthController::class, 'signup'])->name('signup');
-    Route::post('/register', [AuthController::class, 'register'])->name('signup.auth');
-});
+//     Route::get('/register', [AuthController::class, 'signup'])->name('signup');
+//     Route::post('/register', [AuthController::class, 'register'])->name('signup.auth');
+// });
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:Administrator'], function() {
@@ -96,9 +96,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/create-new/laporan', [LaporanController::class, 'laporan_create'])->name('laporan.create');
             Route::get('/create-new/kategori-laporan', [LaporanController::class, 'kategoriLaporan_create'])->name('kategoriLaporan.create');
             Route::get('/edit/kategori-laporan/{kategorilaporan:id}', [LaporanController::class, 'kategoriLaporan_edit'])->name('kategoriLaporan.edit');
-
-
-            Route::get('/edit/profile/{auth:id}', [AuthenticateController::class, 'edit'])->name('profile.edit');
         });
 
         Route::group(['prefix' => 'laporan'], function () {
@@ -107,6 +104,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::PUT('/update/{kategorilaporan:id}', [LaporanController::class, 'kategoriLaporanUpdate'])->name('kategoriLaporan.update');
             Route::delete('/delete/{kategorilaporan:id}', [LaporanController::class, 'kategoriLaporanDelete'])->name('kategoriLaporan.delete');
 
+            Route::get('/laporan', [LaporanController::class, 'laporanIndex'])->name('laporan.index');
+            Route::get('/laporan/{laporan:nis}/detail-laporan', [LaporanController::class, 'laporanDetail'])->name('laporan.detail');
             Route::post('/create-new/laporan/store', [LaporanController::class, 'laporanStore'])->name('laporan.store');
         });
         Route::post('/getjurusanid', [Controller::class, 'get_jurusan'])->name('ajax.getJurusanID');
@@ -114,11 +113,14 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('/', [Controller::class, 'index'])->name('index');
-    Route::get('/laporan', [LaporanController::class, 'laporanIndex'])->name('laporan.index');
-
     Route::get('/profile', function () {
         return view('profile');
     });
+    Route::get('/edit/profile/{auth:id}', [AuthController::class, 'edit'])->name('profile.edit');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

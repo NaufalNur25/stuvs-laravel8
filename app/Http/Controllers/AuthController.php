@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -104,16 +105,26 @@ class AuthController extends Controller
         $user = User::find($id);
 
         $validateData = $request->validate([
-            'username' => ['required', 'string', 'min:5', 'max:25', Rule::unique('users')->ignore($user->id)],
+            'username' => ['required', 'string', 'min:5', 'max:25', Rule::unique('users', 'username')->ignore($user->id)],
             'role' => ['required'],
         ]);
 
-        $user->update([
-            'username' => $validateData['username'],
-        ]);
+        // dd($user);
 
-        return redirect()->route('user')->with('success', 'Berhasil mengubah user ' . $request['username']);
+        if($validateData['username'] === $user->username) {
+            $user->update([
+                'role' => $validateData['role'],
+            ]);
+        } else {
+            $user->update([
+                'username' => $validateData['username'],
+                'role' => $validateData['role'],
+            ]);
+        }
+
+        return redirect()->route('user')->with('success', 'Berhasil mengubah user ' . $user->username);
     }
+
 
     public function edit() {
         // $user = User::where('id', Auth::user()->id)->first();

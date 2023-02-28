@@ -51,7 +51,7 @@
                                             <td><span class="badge bg-warning">OFFLINE</span></td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday{{$item->id}}"><i class="icofont-edit text-success"></i></button>
                                                     <form onclick="return confirm('Kamu Yakin? Data ini akan terhapus selamanya.')" action="{{route('siswa.delete', $item->id)}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -62,7 +62,7 @@
                                         </tr>
 
                                         <!-- Edit Holiday-->
-                                        <div class="modal fade" id="editholiday" tabindex="-1" aria-hidden="true">
+                                        <div class="modal fade" id="editholiday{{$item->id}}" tabindex="-1" aria-hidden="true">
                                             <div
                                                 class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
                                                 <div class="modal-content">

@@ -48,9 +48,9 @@
                                 <td><span
                                         class="badge bg-{{ $color[$item->kategori_laporan_id] }} p-2">{{ $item->kategoriLaporan->nama_pelanggaran }}</span>
                                 </td>
-                                <td>{{ $item->siswa->nama_lengkap }}
+                                <td><a href="{{route('laporan.detail', encrypt($item->nis))}}" class="fw-bold text-primary">{{ $item->siswa->nama_lengkap }}</a>
                                     (<b>{{ $item->siswa->kelas->nama_kelas }}</b>)</td>
-                                <td>Rizky Amallia Eshi, S.Pd.</td>
+                                <td>{{$item->user->guru ? $item->user->guru->nama_lengkap : $item->user->username}}</td>
                                 <td>{{ $item->tanggal_waktu }}</td>
                             </tr>
                         @endforeach

@@ -8,7 +8,6 @@ use App\Models\User\Siswa;
 use App\Models\Kelas\Kelas;
 use Illuminate\Http\Request;
 use App\Models\Laporan\Laporan;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

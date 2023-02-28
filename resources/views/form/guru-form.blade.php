@@ -174,7 +174,7 @@
                         type: 'POST',
                         url: "{{ route('ajax.getJurusanID') }}",
                         data: {
-                            id_jurusan: id_jurusan
+                            jurusan_id: id_jurusan
                         },
                         cache: false,
 
