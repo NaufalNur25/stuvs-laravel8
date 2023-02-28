@@ -2,95 +2,67 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User\Guru;
 use App\Models\User\User;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
-class RegisterController extends Controller
+class RegisterController
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function register()
     {
-        $this->middleware('guest');
+        return view('auth.register');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function registerSession(Request $request)
     {
-        return Validator::make($data, [
+        $validatedData = $request->validate([
             'nip' => ['required', 'min:10', 'max:20'],
             'username' => ['required', 'string', 'min:5', 'max:25', 'unique:users'],
-            'email' => ['required', 'string', 'email:dns', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => ['required', 'email:dns', 'unique:users'],
+            'password' => ['required', 'confirmed', 'min:5', 'max:225']
         ]);
 
+        // Generate unique kode user
+        $kdUser = 'GURU-'.substr(Hash::make($validatedData['username']), 0, 15);
+
+        // Get guru data by nip
+        $guru = Guru::where('nip', $request->nip)->first();
+        if (!$guru) {
+            return back()->withErrors([
+                'nip' => 'NIP guru tidak ditemukan.'
+            ]);
+        }
+
+        // Check if guru already has an account
+        if ($guru->kode_user) {
+            return back()->withErrors([
+                'nip' => 'Guru sudah memiliki akun.'
+            ]);
+        }
+
+        // Hash password and add kode user to the validated data
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData += ['kode_user' => $kdUser];
+
+        // Create user and update guru data
+        User::create($validatedData);
+        $guru->update(['kode_user' => $kdUser]);
+
+        // Authenticate user and redirect to intended URL
+
+        Auth::attempt($request->only('email', 'password'));
+        $request->session()->regenerate();
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
+    public function logout(Request $request)
     {
-        // // Generate unique kode user
-        // $kdUser = 'GURU-'.substr(Hash::make($data['username']), 0, 15);
-
-        // // Get guru data by nip
-        // $guru = Guru::where('nip', $data['nip'])->first();
-        // if (!$guru) {
-        //     return back()->withErrors([
-        //         'nip' => 'NIP guru tidak ditemukan.'
-        //     ]);
-        // }
-
-        // // Check if guru already has an account
-        // if ($guru->kode_user) {
-        //     return back()->withErrors([
-        //         'nip' => 'Guru sudah memiliki akun.'
-        //     ]);
-        // }
-
-        // $guru->update(['kode_user' => $kdUser]);
-        return User::create([
-            // 'kode_user' => $kdUser,
-            // 'name' => $data['name'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 }

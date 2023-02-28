@@ -20,7 +20,7 @@
                     <div class="col-lg-6 d-flex justify-content-center align-items-center border-0 rounded-lg auth-h100">
                         <div class="w-100 p-3 p-md-5 card border-0 bg-dark text-light" style="max-width: 50rem;">
                             <!-- Form -->
-                            <form action="{{ route('register') }}" method="POST" class="row g-1 p-3 p-md-4">
+                            <form action="{{ route('register.session') }}" method="post" class="row g-1 p-3 p-md-4">
                                 @csrf
                                 <div class="col-12 text-center mb-1 mb-lg-5">
                                     <h1>Create your account</h1>

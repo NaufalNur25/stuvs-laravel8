@@ -21,10 +21,10 @@ class OnlineUser
     {
         if(Auth::check())
         {
-            $expireAt = now()->addMinutes(2);
-            Cache::put('user-is-online', Auth::id(), $expireAt);
+            $expiresAt = now()->addMinutes(2);
+            Cache::put('user-is-online-', Auth::id(), $expiresAt);
 
-            User::where('id', Auth::id())->update([
+            User::where('id', Auth::user()->id)->update([
                 'last_seen' => now(),
             ]);
         }

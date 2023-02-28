@@ -20,7 +20,7 @@
                     <div class="col-lg-6 d-flex justify-content-center align-items-center border-0 rounded-lg auth-h100">
                         <div class="w-100 p-3 p-md-5 card border-0 bg-dark text-light" style="max-width: 32rem;">
                             <!-- Form -->
-                            <form method="POST" action="{{ route('login') }}" class="row g-1 p-3 p-md-4">
+                            <form action="{{route('login.session')}}" method="post" class="row g-1 p-3 p-md-4">
                                 @csrf
                                 <div class="col-12 text-center mb-1 mb-lg-5">
                                     <h1>Sign in</h1>
@@ -53,12 +53,7 @@
                                         <div class="form-label">
                                             <span class="d-flex justify-content-between align-items-center">
                                                 Password
-                                                @if (Route::has('password.request'))
-                                                    <a class="text-secondary" href="{{ route('password.request') }}">
-                                                        {{ __('Forgot Your Password?') }}
-                                                    </a>
-                                                @endif
-                                                {{-- <a class="" href="auth-password-reset.html">Forgot Password?</a> --}}
+                                                <a class="text-secondary" href="auth-password-reset.html">Forgot Password?</a>
                                             </span>
                                         </div>
                                         <input name="password" type="password" class="form-control form-control-lg" id="password" placeholder="Password" required>

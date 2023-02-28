@@ -48,7 +48,13 @@
                                                     {{ $item->username }}</span></td>
                                             <td class="text-center">{{ $item->role }}</td>
                                             <td class="text-center">{{ $item->created_at }}</td>
-                                            <td><span class="badge bg-warning">OFFLINE</span></td>
+                                            <td>
+                                                @if (Cache::has('user-is-online-', $item->id))
+                                                <span class="badge bg-success">ONLINE</span>
+                                                @else
+                                                <span class="badge bg-danger">OFFLINE</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday{{$item->id}}"><i class="icofont-edit text-success"></i></button>

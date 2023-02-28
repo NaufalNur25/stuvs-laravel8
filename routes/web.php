@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,13 +30,13 @@ Route::get('/detail-laporan', function () {
     return view('detail-laporan');
 });
 
-// Route::middleware(['guest'])->group(function () {
-//     Route::get('/login', [AuthController::class, 'signin'])->name('signin');
-//     Route::post('/login', [AuthController::class, 'authenticate'])->name('signin.auth');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [LoginController::class, 'login'])->name('login');
+    Route::post('/login', [LoginController::class, 'loginSession'])->name('login.session');
 
-//     Route::get('/register', [AuthController::class, 'signup'])->name('signup');
-//     Route::post('/register', [AuthController::class, 'register'])->name('signup.auth');
-// });
+    Route::get('/register', [RegisterController::class, 'register'])->name('register');
+    Route::post('/register', [RegisterController::class, 'registerSession'])->name('register.session');
+});
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:Administrator'], function() {
@@ -117,10 +118,5 @@ Route::group(['middleware' => 'auth'], function () {
         return view('profile');
     });
     Route::get('/edit/profile/{auth:id}', [AuthController::class, 'edit'])->name('profile.edit');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
